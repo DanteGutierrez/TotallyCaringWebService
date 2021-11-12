@@ -1,0 +1,7 @@
+extends layout 
+
+block content 
+    form(method="POST" action=`/api/users/${user._id}`)
+        input(type="hidden" name="_method" value="PUT")
+        input(type="text" name="firstname" id="FirstName" value=user.firstname)
+        input(type="submit")

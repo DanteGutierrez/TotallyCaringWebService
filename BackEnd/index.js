@@ -2,7 +2,7 @@ const express = require('express');
 const pug = require('pug');
 const bodyParser = require('body-parser');
 const path = require('path');
-const routes = require('./routes/routesLocal'); //routesLocal.js OR routesCloud.js
+const routes = require('./routes/routes'); 
 
 const app = express();
 
@@ -15,6 +15,10 @@ const urlencodedParser = bodyParser.urlencoded({
 });
 
 app.get("/", routes.index);
-app.get("/api", routes.api);
+app.get("/api/addUser", routes.addUserForm);
+app.get("/api/editUser/:id", routes.editUserForm);
+app.get("/api/deleteUser/:id", routes.deleteUserForm);
+app.post("/api/users/:id", urlencodedParser, routes.processUser);
+app.get("/api/users/:id", routes.showUser);
 
 app.listen(3000);
