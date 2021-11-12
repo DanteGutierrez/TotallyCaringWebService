@@ -15,10 +15,23 @@ const urlencodedParser = bodyParser.urlencoded({
 });
 
 app.get("/", routes.index);
+
+//User Manipulation Forms
 app.get("/api/addUser", routes.addUserForm);
 app.get("/api/editUser/:id", routes.editUserForm);
 app.get("/api/deleteUser/:id", routes.deleteUserForm);
+
+//User CRUD
 app.post("/api/users/:id", urlencodedParser, routes.processUser);
 app.get("/api/users/:id", routes.showUser);
+
+//Review Manipulation Forms
+app.get("/api/addReview", routes.addReviewForm);
+app.get("/api/editReview/:id", routes.editReviewForm);
+app.get("/api/deleteReview/:id", routes.deleteReviewForm);
+
+//Review CRUD
+app.post("/api/reviews/:id", urlencodedParser, routes.processReview);
+app.get("/api/reviews/:id", routes.showReview);
 
 app.listen(3000);

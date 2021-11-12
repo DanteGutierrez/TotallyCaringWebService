@@ -1,0 +1,11 @@
+extends layout 
+
+block content 
+    form(method="POST" action=`/api/reviews/${review._id}`)
+        input(type="hidden" name="_method" value="PUT")
+        label(for="comment") Comment: 
+        input(type="text" name="comment" value=review.comment)
+        br
+        label(for="rating") Rating: 
+        input(type="range" name="rating" min="0" max="5" step="0.5" value=review.rating)
+        input(type="submit")

@@ -3,5 +3,5 @@ extends layout
 block content 
     form(method="POST" action=`/api/users/${user._id}`)
         input(type="hidden" name="_method" value="DELETE")
-        div You are going to permanently delete this user...
+        div You are going to permanently delete user #{user.firstname}...
         input(type="submit")

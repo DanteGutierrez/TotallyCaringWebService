@@ -3,5 +3,9 @@ extends layout
 block content 
     form(method="POST" action=`/api/users/${user._id}`)
         input(type="hidden" name="_method" value="PUT")
-        input(type="text" name="firstname" id="FirstName" value=user.firstname)
+        label(for="name") Name: 
+        input(type="text" name="name" value=user.firstname)
+        br
+        label(for="password") Password: 
+        input(type="text" name="password" value=user.password)
         input(type="submit")
