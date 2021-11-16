@@ -36,10 +36,26 @@ const updateOneObject = async (collectionName, query, updatedInformation) => {
     return confirmation;
 };
 
+const updateManyObjects = async (collectionName, query, updatedInformation) => {
+    let collection = db.collection(collectionName);
+    await client.connect();
+    let confirmation = await collection.updateMany(query, updatedInformation);
+    client.close();
+    return confirmation;
+};
+
 const deleteOneObject = async (collectionName, query) => {
     let collection = db.collection(collectionName);
     await client.connect();
     let confirmation = await collection.deleteOne(query);
+    client.close();
+    return confirmation;
+};
+
+const deleteManyObjects = async (collectionName, query) => {
+    let collection = db.collection(collectionName);
+    await client.connect();
+    let confirmation = await collection.deleteMany(query);
     client.close();
     return confirmation;
 };
@@ -122,45 +138,73 @@ exports.processUser = async (req, res) => {
     let date = new Date(ISODateCreator());
     let user = {};
     let result;
-    switch (req.body._method) {
-        case "POST":
-            user = {
-                name: req.body.name,
-                email: req.body.email,
-                totalreviews: 0,
-                joindate: date,
-                password: req.body.password
-            };
-            result = await addObject("users", user);
-            res.redirect(`/api/users/${result.insertedId.toString()}`);
-            break;
-        case "PUT":
-            user = {
-                name: req.body.name,
-                password: req.body.password
-            };
-            result = await updateOneObject("users", { _id: ObjectId(req.params.id) }, { $set: user });
-            res.redirect(`/api/users/${req.params.id}`);
-            break;
-        case "DELETE":
-            result = await deleteOneObject("users", { _id: ObjectId(req.params.id) });
-            res.redirect(`/`);
-            break;
-        default:
-            res.redirect(`/`);
-            break;
+    if (req.body._method != undefined) {
+        switch (req.body._method) {
+            case "POST":
+                user = {
+                    name: req.body.name,
+                    email: req.body.email,
+                    totalreviews: 0,
+                    joindate: date,
+                    password: req.body.password
+                };
+                result = await addObject("users", user);
+                res.redirect(`/api/users/${result.insertedId.toString()}`);
+                break;
+            case "PUT":
+                user = {
+                    name: req.body.name,
+                    password: req.body.password
+                };
+                result = await updateOneObject("users", { _id: ObjectId(req.params.id) }, { $set: user });
+                res.redirect(`/api/users/${req.params.id}`);
+                break;
+            case "DELETE":
+                result = await deleteOneObject("users", { _id: ObjectId(req.params.id) });
+                res.redirect("/");
+                break;
+            default:
+                res.redirect("/");
+                break;
+        }
     }
-    
+    else {
+        user = {
+            name: req.body.name,
+            email: req.body.email,
+            totalreviews: 0,
+            joindate: date,
+            password: req.body.password
+        };
+        result = await addObject("users", user);
+        res.redirect(`/api/users/${result.insertedId.toString()}`);
+    }
 };
+
+exports.updateUser = async (req, res) => {
+    user = {
+        name: req.body.name,
+        password: req.body.password
+    };
+    result = await updateOneObject("users", { _id: ObjectId(req.params.id) }, { $set: user });
+    res.redirect(`/api/users/${req.params.id}`);
+};
+
+exports.deleteUser = async (req, res) => {
+    result = await deleteOneObject("users", { _id: ObjectId(req.params.id) });
+    res.redirect("/");
+}
 
 exports.showUser = async (req, res) => {
     let result;
     if (req.params.id.toString().length == 24) {
-        if (req.params.id == "searchByEmail") {
-            let query = {
-                email: req.query.email
-            }
-            result = await findOneObject("users", query);
+        if (req.params.id == "search") {
+            let query = {}
+            if (req.query.name != undefined) query.name = req.query.name;
+            if (req.query.email != undefined) query.email = req.query.email;
+            // if (req.query.totalreviews != undefined) query.totalreviews = req.query.totalreviews;
+            // if (req.query.joindate != undefined) query.joindate = req.query.joindate;
+            result = await findManyObjects("users", query);
         }
         else {
             result = await findOneObject("users", { _id: ObjectId(req.params.id) });
@@ -240,36 +284,65 @@ exports.processReview = async (req, res) => {
     let date = new Date(ISODateCreator());
     let review = {};
     let result;
-    switch (req.body._method) {
-        case "POST":
-            review = {
-                restaurantid: req.body.restaurantid,
-                userid: ObjectId(req.body.userid),
-                comment: req.body.comment,
-                rating: req.body.rating,
-                creationdate: date,
-                editdate: date
-            };
-            result = await addObject("reviews", review);
-            res.redirect(`/api/reviews/${result.insertedId.toString()}`);
-            break;
-        case "PUT":
-            review = {
-                comment: req.body.comment,
-                rating: req.body.rating,
-                editdate: date
-            };
-            result = await updateOneObject("reviews", { _id: ObjectId(req.params.id) }, { $set: review });
-            res.redirect(`/api/reviews/${req.params.id}`);
-            break;
-        case "DELETE":
-            result = await deleteOneObject("reviews", { _id: ObjectId(req.params.id) });
-            res.redirect(`/`);
-            break;
-        default:
-            res.redirect(`/`);
-            break;
+    if (req.body._method != undefined) {
+        switch (req.body._method) {
+            case "POST":
+                review = {
+                    restaurantid: req.body.restaurantid,
+                    userid: ObjectId(req.body.userid),
+                    comment: req.body.comment,
+                    rating: req.body.rating,
+                    creationdate: date,
+                    editdate: date
+                };
+                result = await addObject("reviews", review);
+                res.redirect(`/api/reviews/${result.insertedId.toString()}`);
+                break;
+            case "PUT":
+                review = {
+                    comment: req.body.comment,
+                    rating: req.body.rating,
+                    editdate: date
+                };
+                result = await updateOneObject("reviews", { _id: ObjectId(req.params.id) }, { $set: review });
+                res.redirect(`/api/reviews/${req.params.id}`);
+                break;
+            case "DELETE":
+                result = await deleteOneObject("reviews", { _id: ObjectId(req.params.id) });
+                res.redirect("/");
+                break;
+            default:
+                res.redirect("/");
+                break;
+        }
     }
+    else {
+        review = {
+            restaurantid: req.body.restaurantid,
+            userid: ObjectId(req.body.userid),
+            comment: req.body.comment,
+            rating: req.body.rating,
+            creationdate: date,
+            editdate: date
+        };
+        result = await addObject("reviews", review);
+        res.redirect(`/api/reviews/${result.insertedId.toString()}`);
+    }
+};
+
+exports.updateReview = async (req, res) => {
+    review = {
+        comment: req.body.comment,
+        rating: req.body.rating,
+        editdate: date
+    };
+    result = await updateOneObject("reviews", { _id: ObjectId(req.params.id) }, { $set: review });
+    res.redirect(`/api/reviews/${req.params.id}`);
+};
+
+exports.deleteReview = async (req, res) => {
+    result = await deleteOneObject("reviews", { _id: ObjectId(req.params.id) });
+    res.redirect("/");
 };
 
 exports.showReview = async (req, res) => {

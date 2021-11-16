@@ -13,16 +13,25 @@ To edit the user with the form do /api/editUser/{the id of the user}
 To delete the user with form do /api/deleteUser/{the id of the user}
 
 To view a user you can either do /api/users/{the id of the user}
-OR you can do /api/users/searchByEmail?email={email of the user}
+OR you can do /api/users/search?
+and add one of the following parameters:
+- name={name of user}
+- email={email of user}
 
 To do add through HTTP, your form needs a hidden input with name="_method" and value="POST"
 Then you need to post the form to the url /api/users
 
-to do edit through HTTP, your form needs a hidden input with name="_method" and value="PUT"
+To do edit through HTTP, your form needs a hidden input with name="_method" and value="PUT"
+OR use the HTTP PUT method.
 Then you need to post the form to the url /api/users/{the id of the user}
+** You will be working with one user at a time, based off of the id **
 
 To do delete through HTTP, your form needs a hidden input with the name="_method" and value="DELETE"
+OR use the HTTP DELETE method
 Then you need to post the form to the url /api/users/{the id of the user}
+** You will be working with one user at a time, based off of the id **
+
+*** If you do not use the hidden input with the "_method" then it will default to a creation ***
 
 --- Reviews ---
 
@@ -42,8 +51,14 @@ and add one or both of the following parameters:
 To do add through HTTP, your form needs a hidden input with name="_method" and value="POST"
 Then you need to post the form to the url /api/reviews
 
-to do edit through HTTP, your form needs a hidden input with name="_method" and value="PUT"
+To do edit through HTTP, your form needs a hidden input with name="_method" and value="PUT"
+OR use the HTTP PUT method
 Then you need to post the form to the url /api/reviews/{the id of the review}
+** You will be working with one review at a time, based off of the id **
 
 To do delete through HTTP, your form needs a hidden input with the name="_method" and value="DELETE"
+OR use the HTTP DELETE method
 Then you need to post the form to the url /api/reviews/{the id of the review}
+** You will be working with one review at a time, based off of the id **
+
+*** If you do not use the hidden input with the "_method" then it will default to a creation ***
