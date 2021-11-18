@@ -1,0 +1,64 @@
+This restful web api has CRUD operations for both the user and review collections.
+
+There is a form that can be loaded to add these entries, or a HTTP POST method to handle them.
+
+to start with the api the url will be / for the home
+
+-- Users ---
+
+To add Users using the forms do /api/addUser
+
+To edit the user with the form do /api/editUser/{the id of the user}
+
+To delete the user with form do /api/deleteUser/{the id of the user}
+
+To view a user you can either do /api/users/{the id of the user}
+OR you can do /api/users/search?
+and add one of the following parameters:
+- name={name of user}
+- email={email of user}
+
+To do add through HTTP, your form needs a hidden input with name="_method" and value="POST"
+Then you need to post the form to the url /api/users
+
+To do edit through HTTP, your form needs a hidden input with name="_method" and value="PUT"
+OR use the HTTP PUT method.
+Then you need to post the form to the url /api/users/{the id of the user}
+** You will be working with one user at a time, based off of the id **
+
+To do delete through HTTP, your form needs a hidden input with the name="_method" and value="DELETE"
+OR use the HTTP DELETE method
+Then you need to post the form to the url /api/users/{the id of the user}
+** You will be working with one user at a time, based off of the id **
+
+*** If you do not use the hidden input with the "_method" then it will default to a creation ***
+
+--- Reviews ---
+
+To add Reviews using the forms do /api/addReview?restaurantid={id of restaurant for review}&userid={id of user leaving review}
+You are required to enter both fields properly in order to leave a review or else it would be an incomplete review.
+
+To edit the review with the form do /api/editReview/{the id of the review}
+
+To delete the review with form do /api/deleteReview/{the id of the review}
+
+To view a user you can either do /api/reviews/{the id of the review}
+OR you can do /api/users/search?
+and add one or both of the following parameters:
+-  restaurantid={id of the restaurant}
+-  userid={id of the user}
+
+To do add through HTTP, your form needs a hidden input with name="_method" and value="POST"
+Then you need to post the form to the url /api/reviews
+
+To do edit through HTTP, your form needs a hidden input with name="_method" and value="PUT"
+OR use the HTTP PUT method
+Then you need to post the form to the url /api/reviews/{the id of the review}
+** You will be working with one review at a time, based off of the id **
+
+To do delete through HTTP, your form needs a hidden input with the name="_method" and value="DELETE"
+OR use the HTTP DELETE method
+Then you need to post the form to the url /api/reviews/{the id of the review}
+** You will be working with one review at a time, based off of the id **
+
+*** If you do not use the hidden input with the "_method" then it will default to a creation ***
