@@ -1,0 +1,14 @@
+extends layout 
+
+block content 
+    form(method="POST" action="/api/reviews/created")
+        input(type="hidden" name="_method" value="POST")
+        input(type="hidden" name="restaurantid" value=restaurantid)
+        input(type="hidden" name="userid" value=userid)
+        label(for="comment") Comment: 
+        input(type="text" name="comment")
+        br
+        label(for="rating") Rating: 
+        input(type="range" name="rating" min="0" max="5" step="0.5")
+        br
+        input(type="submit")
