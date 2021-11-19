@@ -1,0 +1,11 @@
+extends layout 
+
+block content 
+    form(method="POST" action="/yelp/businesses")
+        label(for="term") Search Terms: 
+        input(type="text" name="term")
+        br
+        label(for="location") Location: 
+        input(type="text" name="location")
+        br
+        input(type="submit")

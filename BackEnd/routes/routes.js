@@ -364,3 +364,29 @@ exports.showReview = async (req, res) => {
         res.redirect("/");
     }
 }
+
+const yelp = require('yelp-fusion');
+const yelpApiKey = 'fFejzpfTjCerq_1Wowjvg9K5yZBAWEky9PZcpbnYZOM13YYyFPIlb3uJuocXk5HK4Ic_hEo-_biM_nf7ZFOl3bOaUZdA4FzgPIsohbUa8it1BWZfIzoiC8_5EtmKYXYx';
+const yelpClient = yelp.client(yelpApiKey);
+
+exports.yelpBusinessForm = (req, res) => {
+    res.render('yelpBusinessForm');
+}
+
+exports.yelpBusinesses = async (req, res) => {
+    let searchRequest = {
+        term: req.body.term,
+        location: req.body.location
+    };
+    let result = await yelpClient.search(searchRequest);
+    res.json(result.jsonBody.businesses);
+}
+
+exports.yelpReviewForm = (req, res) => {
+    res.render('yelpReviewForm');
+}
+
+exports.yelpReviews = async (req, res) => {
+    let result = await yelpClient.reviews(req.body.businessId);
+    res.json(result.jsonBody.reviews);
+}
