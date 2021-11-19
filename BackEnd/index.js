@@ -2,7 +2,7 @@ const express = require('express');
 const pug = require('pug');
 const bodyParser = require('body-parser');
 const path = require('path');
-const routes = require('./routes/routesLocal'); //routesLocal.js OR routesCloud.js
+const routes = require('./routes/routes'); 
 
 const app = express();
 
@@ -15,6 +15,27 @@ const urlencodedParser = bodyParser.urlencoded({
 });
 
 app.get("/", routes.index);
-app.get("/api", routes.api);
+
+//User Manipulation Forms
+app.get("/api/addUser", routes.addUserForm);
+app.get("/api/editUser/:id", routes.editUserForm);
+app.get("/api/deleteUser/:id", routes.deleteUserForm);
+
+//User CRUD
+app.post("/api/users/:id", urlencodedParser, routes.processUser);
+app.get("/api/users/:id", routes.showUser);
+app.put("/api/users/:id", urlencodedParser, routes.updateUser);
+app.delete("/api/users/:id", routes.deleteUser);
+
+//Review Manipulation Forms
+app.get("/api/addReview", routes.addReviewForm);
+app.get("/api/editReview/:id", routes.editReviewForm);
+app.get("/api/deleteReview/:id", routes.deleteReviewForm);
+
+//Review CRUD
+app.post("/api/reviews/:id", urlencodedParser, routes.processReview);
+app.get("/api/reviews/:id", routes.showReview);
+app.put("/api/reviews/:id", urlencodedParser, routes.updateReview);
+app.delete("/api/reviews/:id", routes.deleteReview);
 
 app.listen(3000);
