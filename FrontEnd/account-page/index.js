@@ -8,5 +8,8 @@ app.use(express.static(path.join(__dirname,'build')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+app.get('/manifest.json', (req, res) => {
+    res.json("/build/manifest.json");
+})
 
 app.listen(port);
