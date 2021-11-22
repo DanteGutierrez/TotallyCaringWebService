@@ -10,38 +10,103 @@ const url = "http://localhost:8080/api/users/";
 
 class BasicInformation extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
     }
     render() {
         return (
-            <div id="BasicInfo" class="container horiztonal spaceEvenly">
-                <img src="" alt="Profile Picture Here" id="Picture" class="item"></img>
-                <div id="Name" class="item">
+            <div id="BasicInfo" className="container horiztonal spaceEvenly wireframe">
+                <img src="" alt="Profile Picture Here" id="Picture" className="item wireframe"></img>
+                <div id="Name" className="item">
                     {this.props.account.name}
                 </div>
             </div>
             
-        )
+        );
+    };
+}
+
+class MenuOption extends React.Component {
+    constructor(props) {
+        super(props);
     }
+    render() {
+        return (
+            <div className="option item wireframe">
+                {this.props.option}
+            </div>
+        );
+    };
+
+}
+
+class SideMenu extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <div id="SideMenu" className="container vertical item wireframe">
+                {this.props.config.options.map(option => {
+                    return (<MenuOption key={option} option={option}/>);
+                })}
+            </div>
+        );
+    };
+}
+
+class DisplayConfigurations extends React.Component {
+    render() {
+        return (
+            <div id="DisplayConfig" className="container vertical item wireframe max">
+                Hello World!
+            </div>
+        );
+    };
+}
+
+class InteractiveAccountView extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            config: {
+                selected: "reviews",
+                options: [
+                    "reviews",
+                    "favorites",
+                    "edit Username",
+                    "upload Picture"
+                ]
+            }
+        };
+    }
+    render() {
+        return (
+            <div id="InteractiveAccountView" className="container horizontal spaceEvenly item wireframe max">
+                <SideMenu config={this.state.config} />
+                <DisplayConfigurations config={this.state.config} />
+            </div>
+        );
+    };
 }
 
 class Frame extends React.Component {
     constructor() {
         super();
-        this.state = { data: [] };
+        this.state = { userInformation: [] };
     }
     componentDidMount() {
         fetch(url + testAccountId)
             .then(res => res.json())
-            .then(json => this.setState({ data: json }));
-        console.log(this.state.data);
+            .then(json => this.setState({ userInformation: json }));
     }
     render() {
-        
         return (
-            <BasicInformation account={this.state.data} />
-        )
-    }
+            <div id="Frame" className="container vertical max item wireframe">
+                <BasicInformation account={this.state.userInformation} />
+                <InteractiveAccountView />
+            </div>
+        );
+    };
 }
 
 
