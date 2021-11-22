@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 const testAccountId = "619701f533df0fcbaa0dd865";
 
-const url = "http://localhost:8080/api/users/";
+const url = "https://eatd-8s2kk.ondigitalocean.app/api/users/";
 
 class BasicInformation extends React.Component {
     constructor(props) {
