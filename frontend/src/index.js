@@ -111,7 +111,9 @@ class Frame extends React.Component {
 
 
 ReactDOM.render(
-    <Frame />,
+    <React.StrictMode>
+        <Frame />
+    </React.StrictMode>,
     document.getElementById('root')
 );
 
