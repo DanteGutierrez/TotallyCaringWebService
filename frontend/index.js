@@ -5,6 +5,12 @@ const port = process.env.PORT || 8080
 const app = express();
 app.use(express.static(path.join(__dirname,'build')));
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 
 if (process.env.NODE_ENV === 'production') {
     // Exprees will serve up production assets
@@ -19,10 +25,6 @@ else {
     app.get('/', (req, res) => {
         res.sendFile(path.join(__dirname, 'build', 'index.html'));
     });
-    app.get('/manifest.json', (req, res) => {
-        res.json("/build/manifest.json");
-    })
-
 }
 
 app.listen(port);
