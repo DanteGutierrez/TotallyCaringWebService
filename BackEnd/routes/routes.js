@@ -372,22 +372,16 @@ exports.yelpBusinessForm = (req, res) => {
 }
 
 exports.yelpBusinesses = async (req, res) => {
-    // let searchRequest = {};
-    // if (req.query.term != undefined) searchRequest.term = req.query.term;
-    // if (req.query.location != undefined) {
-    //     searchRequest.location = req.query.location;
-    //     let result = await yelpClient.search(searchRequest);
-    //     res.json(result.jsonBody.businesses);
-    // } 
-    // else {
-        res.render('test.pug',
-            {
-                title: "testing",
-                term: req.query.term,
-                location: req.query.location
-            }
-        )
-    //}
+    let searchRequest = {};
+    if (req.body.term != undefined) searchRequest.term = req.body.term;
+    if (req.body.location != undefined) {
+        searchRequest.location = req.body.location;
+        let result = await yelpClient.search(searchRequest);
+        res.json(result.jsonBody.businesses);
+    } 
+    else {
+        res.redirect("/");
+    }
 }
 
 exports.yelpReviewForm = (req, res) => {
@@ -395,8 +389,8 @@ exports.yelpReviewForm = (req, res) => {
 }
 
 exports.yelpReviews = async (req, res) => {
-    if (req.query.businessId != undefined) {
-        let result = await yelpClient.reviews(req.query.businessId);
+    if (req.body.businessId != undefined) {
+        let result = await yelpClient.reviews(req.body.businessId);
         res.json(result.jsonBody.reviews);
     }
     else {
