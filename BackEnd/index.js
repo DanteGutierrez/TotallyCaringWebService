@@ -49,13 +49,9 @@ app.delete("/api/reviews/:id", routes.deleteReview);
 
 //Yelp passthrough
 app.get("/yelp/getBusinesses", routes.yelpBusinessForm);
-app.post("/yelp/businesses", urlencodedParser, (req, res) => {
-    res.render(
-        <h1>HelloWorld</h1>
-    )
-});
+app.get("/yelp/businesses", routes.yelpBusinesses);
 app.get("/yelp/getReviews", routes.yelpReviewForm);
-app.post("/yelp/reviews", urlencodedParser, routes.yelpReviews);
+app.get("/yelp/reviews", routes.yelpReviews);
 
 
 app.listen(port);
