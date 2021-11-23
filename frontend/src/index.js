@@ -3,7 +3,7 @@ import './index.css';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import AccountInformation from './components/AccountInformation';
 import NavigationBar from './components/NavigationBar';
