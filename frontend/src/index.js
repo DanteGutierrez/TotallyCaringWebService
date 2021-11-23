@@ -6,18 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import AccountInformation from './components/AccountInformation';
+import NavigationBar from './components/NavigationBar';
 
 
 class App extends React.Component {
     render() {
         return (
-            <div class="container vertical maxWidth maxHeight">
-                <div id="NavigationBar" class="container horiztonal spaceEvenly maxWidth">
-                    <Link to="/">Home</Link>
-                    <Link to="/account">Account</Link>
-                    <Link to="/more">More</Link>
-                </div>
-                
+            <div id="App" class="container vertical maxWidth maxHeight">
+                <NavigationBar />
                 <Routes>
                     <Route exact path="/" element={<h1>Home</h1>}/>
                     <Route path="/account" element={<AccountInformation />}/>
