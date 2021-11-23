@@ -1,119 +1,38 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 
-const testAccountId = "619701f533df0fcbaa0dd865";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-const url = "https://eatd-8s2kk.ondigitalocean.app/api/users/";
+import AccountInformation from './components/AccountInformation';
 
-class BasicInformation extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+
+class App extends React.Component {
     render() {
         return (
-            <div id="BasicInfo" className="container horiztonal spaceEvenly wireframe">
-                <img src="" alt="Profile Picture Here" id="Picture" className="item wireframe"></img>
-                <div id="Name" className="item">
-                    {this.props.account.name}
+            <div class="container vertical maxWidth maxHeight">
+                <div id="NavigationBar" class="container horiztonal spaceEvenly maxWidth">
+                    <Link to="/">Home</Link>
+                    <Link to="/account">Account</Link>
+                    <Link to="/more">More</Link>
                 </div>
+                
+                <Routes>
+                    <Route exact path="/" element={<h1>Home</h1>}/>
+                    <Route path="/account" element={<AccountInformation />}/>
+                    <Route path="/more" element={<h1>More</h1>}/>
+                </Routes>
             </div>
-            
-        );
-    };
-}
-
-class MenuOption extends React.Component {
-    constructor(props) {
-        super(props);
+        )
     }
-    render() {
-        return (
-            <div className="option item wireframe">
-                {this.props.option}
-            </div>
-        );
-    };
-
-}
-
-class SideMenu extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div id="SideMenu" className="container vertical item wireframe">
-                {this.props.config.options.map(option => {
-                    return (<MenuOption key={option} option={option}/>);
-                })}
-            </div>
-        );
-    };
-}
-
-class DisplayConfigurations extends React.Component {
-    render() {
-        return (
-            <div id="DisplayConfig" className="container vertical item wireframe max">
-                Hello World!
-            </div>
-        );
-    };
-}
-
-class InteractiveAccountView extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            config: {
-                selected: "reviews",
-                options: [
-                    "reviews",
-                    "favorites",
-                    "edit Username",
-                    "upload Picture"
-                ]
-            }
-        };
-    }
-    render() {
-        return (
-            <div id="InteractiveAccountView" className="container horizontal spaceEvenly item wireframe max">
-                <SideMenu config={this.state.config} />
-                <DisplayConfigurations config={this.state.config} />
-            </div>
-        );
-    };
-}
-
-class Frame extends React.Component {
-    constructor() {
-        super();
-        this.state = { userInformation: [] };
-    }
-    componentDidMount() {
-        fetch(url + testAccountId)
-            .then(res => res.json())
-            .then(json => this.setState({ userInformation: json }));
-    }
-    render() {
-        return (
-            <div id="Frame" className="container vertical max item wireframe">
-                <BasicInformation account={this.state.userInformation} />
-                <InteractiveAccountView />
-            </div>
-        );
-    };
 }
 
 
 ReactDOM.render(
-    <React.StrictMode>
-        <Frame />
-    </React.StrictMode>,
+    <Router>
+        <App />
+    </Router>,
     document.getElementById('root')
 );
 
