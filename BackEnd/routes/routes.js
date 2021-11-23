@@ -378,8 +378,9 @@ exports.yelpBusinesses = async (req, res) => {
         term: req.body.term,
         location: req.body.location
     };
-    let result = await yelpClient.search(searchRequest);
-    res.json(result.jsonBody.businesses);
+    console.log(searchRequest);
+    // let result = await yelpClient.search(searchRequest);
+    // res.json(result.jsonBody.businesses);
 }
 
 exports.yelpReviewForm = (req, res) => {
