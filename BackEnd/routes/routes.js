@@ -380,7 +380,13 @@ exports.yelpBusinesses = async (req, res) => {
         res.json(result.jsonBody.businesses);
     } 
     else {
-        res.redirect("/");
+        res.render('test.pug',
+            {
+                title: "testing",
+                term: req.query.term,
+                location: req.query.location
+            }
+        )
     }
 }
 
