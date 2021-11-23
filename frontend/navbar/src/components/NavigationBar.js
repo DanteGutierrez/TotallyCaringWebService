@@ -1,7 +1,6 @@
 import React from 'react';
 import { Nav, Navbar, Form, FormControl } from 'react-bootstrap';
 import styled from 'styled-components';
-import logo from '../EatdLogo.jpg';
 
 const Styles = styled.div`
   .navbar { background-color: #161616; }
