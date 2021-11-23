@@ -372,14 +372,14 @@ exports.yelpBusinessForm = (req, res) => {
 }
 
 exports.yelpBusinesses = async (req, res) => {
-    let searchRequest = {};
-    if (req.query.term != undefined) searchRequest.term = req.query.term;
-    if (req.query.location != undefined) {
-        searchRequest.location = req.query.location;
-        let result = await yelpClient.search(searchRequest);
-        res.json(result.jsonBody.businesses);
-    } 
-    else {
+    // let searchRequest = {};
+    // if (req.query.term != undefined) searchRequest.term = req.query.term;
+    // if (req.query.location != undefined) {
+    //     searchRequest.location = req.query.location;
+    //     let result = await yelpClient.search(searchRequest);
+    //     res.json(result.jsonBody.businesses);
+    // } 
+    // else {
         res.render('test.pug',
             {
                 title: "testing",
@@ -387,7 +387,7 @@ exports.yelpBusinesses = async (req, res) => {
                 location: req.query.location
             }
         )
-    }
+    //}
 }
 
 exports.yelpReviewForm = (req, res) => {
