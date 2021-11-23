@@ -49,7 +49,9 @@ app.delete("/api/reviews/:id", routes.deleteReview);
 
 //Yelp passthrough
 app.get("/yelp/getBusinesses", routes.yelpBusinessForm);
-app.get("/yelp/businesses", routes.yelpBusinesses);
+app.get("/yelp/businesses", (req, res) => {
+    res.json({term: req.query.term ,location: req.query.location});
+});
 app.get("/yelp/getReviews", routes.yelpReviewForm);
 app.get("/yelp/reviews", routes.yelpReviews);
 
