@@ -1,5 +1,5 @@
 import React from 'react';
-import './accountInfo.css';
+import './AccountInformation.css';
 
 const testAccountId = "619c4120d9efc262d8d3bb4b";
 
