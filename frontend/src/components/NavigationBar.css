@@ -1,7 +1,7 @@
 .navbar {
     background-color: #161616;
 }
-a, .navbar-nav, .navbar-light .nav-link {
+.navbar-nav, .navbar-light .nav-link {
     color: #4C88E7;
 }
 .navbar-brand {
@@ -9,7 +9,7 @@ a, .navbar-nav, .navbar-light .nav-link {
     color: #4C88E7;
 }
 
-a:hover, .navbar-nav:hover, .navbar-light:hover, .nav-link:hover, .navbar-brand:hover {
+.navbar-nav:hover, .navbar-light:hover, .nav-link:hover, .navbar-brand:hover {
     color: white;
 }
 
