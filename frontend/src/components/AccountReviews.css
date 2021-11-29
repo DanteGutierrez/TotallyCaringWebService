@@ -1,0 +1,17 @@
+.reviewProfile {
+    align-self: flex-start;
+    height: 10vh;
+    aspect-ratio: 1 / 1;
+}
+.reviewContent {
+    align-items: flex-start;
+}
+.reviewRating {
+    height: 5vh;
+    aspect-ratio: 102 / 18;
+}
+#ReviewFrame {
+    max-height: 68vh;
+    overflow:auto;
+    justify-content:flex-start;
+}

@@ -12,9 +12,6 @@ let search = {
 };
 
 class CategoryCard extends React.Component {
-    constructor(props) {
-        super(props)
-    }
     render() {
         return (
             <div className="categoryCard">
@@ -25,21 +22,18 @@ class CategoryCard extends React.Component {
 }
 
 class Card extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <div className="card contents container horizontal item spaceEvenly wireframe">
                 <div className="smallImage item container vertical">
-                    <img src={this.props.restaurant.image_url} className="restaurantImage"/>
+                    <img src={this.props.restaurant.image_url} alt="Restaurant" className="restaurantImage"/>
                 </div>
                 <div className="item cardText container vertical">
                     <a href={this.props.restaurant.url} className="item noTextDecoration wireframe">
                         <div>{this.props.restaurant.name}</div>
                     </a>
                     <div className="container horizontal spaceBetween maxWidth">
-                        <img src={"./ratings/" + this.props.restaurant.rating + ".png"} className="ratingImage" />
+                        <img src={"./ratings/" + this.props.restaurant.rating + ".png"} alt="Rating" className="ratingImage" />
                         <div className="categoryContainer container horizontal spaceEvenly">
                             {this.props.restaurant.categories.map(category => {
                                 return (
@@ -56,9 +50,6 @@ class Card extends React.Component {
 }
 
 class CardHost extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <div id="CardHost" className="container vertical wireframe">
