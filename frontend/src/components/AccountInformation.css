@@ -1,6 +1,12 @@
 .option:hover {
   cursor: pointer;
 }
+.selected {
+  color: red;
+}
+#Frame {
+  max-height: 90vh;
+}
 #BasicInfo {
   width: 100%;
   height: 15vh;
@@ -18,6 +24,8 @@
 }
 #InteractiveAccountView {
   margin-top: 5vh;
+  max-height: 80vh;
+  align-items: flex-start;
 }
 #SideMenu {
   align-self: flex-start;

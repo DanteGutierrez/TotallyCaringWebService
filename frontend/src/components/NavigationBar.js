@@ -6,7 +6,7 @@ class NavigationBar extends React.Component {
     render() {
         return (
             <Navbar id="NavigationBar" className="container horizontal spaceBetween maxWidth">
-                <Navbar.Brand href="/" className="item"><img src="./Eatd.png" id="Logo"/></Navbar.Brand>
+                <Navbar.Brand href="/" className="item"><img src="./Eatd.png" alt="Logo"id="Logo"/></Navbar.Brand>
                 <Form className="form-center container horizontal">
                     <FormControl type="text" placeholder="Search Terms" className="item" />
                     <FormControl type="text" placeholder="Location" className="item" />
