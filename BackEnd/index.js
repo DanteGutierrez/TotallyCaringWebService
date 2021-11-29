@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const routes = require('./routes/routes');
 const { runInNewContext } = require('vm');
+const cors = require("cors");
 const port = process.env.PORT || 8080
 
 const app = express();
@@ -12,13 +13,14 @@ app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 app.use(express.static(path.join(__dirname, '/public')));
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-    next();
-});
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+//     next();
+// });
 
+app.use(cors());
 
 const urlencodedParser = bodyParser.urlencoded({
     extended: true
