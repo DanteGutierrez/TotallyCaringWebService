@@ -4,7 +4,7 @@ block content
     form(method="POST" action=`/api/users/${user._id}`)
         input(type="hidden" name="_method" value="PUT")
         label(for="name") Name: 
-        input(type="text" name="name" value=user.firstname)
+        input(type="text" name="name" value=user.name)
         br
         label(for="password") Password: 
         input(type="text" name="password" value=user.password)

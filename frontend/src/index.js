@@ -3,23 +3,19 @@ import './index.css';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import NavigationBar from './components/NavigationBar';
+import HomePage from './components/HomePage';
 import AccountInformation from './components/AccountInformation';
-
 
 class App extends React.Component {
     render() {
         return (
-            <div class="container vertical maxWidth maxHeight">
-                <div id="NavigationBar" class="container horiztonal spaceEvenly maxWidth">
-                    <Link to="/">Home</Link>
-                    <Link to="/account">Account</Link>
-                    <Link to="/more">More</Link>
-                </div>
-                
+            <div id="App" className="container vertical maxWidth maxHeight">
+                <NavigationBar />
                 <Routes>
-                    <Route exact path="/" element={<h1>Home</h1>}/>
+                    <Route exact path="/" element={<HomePage />}/>
                     <Route path="/account" element={<AccountInformation />}/>
                     <Route path="/more" element={<h1>More</h1>}/>
                 </Routes>

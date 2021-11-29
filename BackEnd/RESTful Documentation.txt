@@ -49,7 +49,12 @@ and add one or both of the following parameters:
 -  userid={id of the user}
 
 To do add through HTTP, your form needs a hidden input with name="_method" and value="POST"
-Then you need to post the form to the url /api/reviews
+Then you need to post the form to the url /api/reviews/created
+** It takes the fields:
+    userid
+    restaurantid
+    rating
+    comment
 
 To do edit through HTTP, your form needs a hidden input with name="_method" and value="PUT"
 OR use the HTTP PUT method

@@ -198,17 +198,15 @@ exports.deleteUser = async (req, res) => {
 exports.showUser = async (req, res) => {
     let result;
     if (req.params.id.toString().length == 24) {
-        if (req.params.id == "search") {
-            let query = {}
-            if (req.query.name != undefined) query.name = req.query.name;
-            if (req.query.email != undefined) query.email = req.query.email;
-            // if (req.query.totalreviews != undefined) query.totalreviews = req.query.totalreviews;
-            // if (req.query.joindate != undefined) query.joindate = req.query.joindate;
-            result = await findManyObjects("users", query);
-        }
-        else {
-            result = await findOneObject("users", { _id: ObjectId(req.params.id) });
-        }
+        result = await findOneObject("users", { _id: ObjectId(req.params.id) });
+    }
+    else if (req.params.id == "search" && req.query != undefined) {
+        let query = {}
+        if (req.query.name != undefined) query.name = req.query.name;
+        if (req.query.email != undefined) query.email = req.query.email;
+        // if (req.query.totalreviews != undefined) query.totalreviews = req.query.totalreviews;
+        // if (req.query.joindate != undefined) query.joindate = req.query.joindate;
+        result = await findManyObjects("users", query);
     }
     if (result != null) {
         res.json(result);
@@ -374,12 +372,16 @@ exports.yelpBusinessForm = (req, res) => {
 }
 
 exports.yelpBusinesses = async (req, res) => {
-    let searchRequest = {
-        term: req.body.term,
-        location: req.body.location
-    };
-    let result = await yelpClient.search(searchRequest);
-    res.json(result.jsonBody.businesses);
+    let searchRequest = {};
+    if (req.body.term != undefined) searchRequest.term = req.body.term;
+    if (req.body.location != undefined) {
+        searchRequest.location = req.body.location;
+        let result = await yelpClient.search(searchRequest);
+        res.json(result.jsonBody.businesses);
+    } 
+    else {
+        res.redirect("/");
+    }
 }
 
 exports.yelpReviewForm = (req, res) => {
@@ -387,6 +389,11 @@ exports.yelpReviewForm = (req, res) => {
 }
 
 exports.yelpReviews = async (req, res) => {
-    let result = await yelpClient.reviews(req.body.businessId);
-    res.json(result.jsonBody.reviews);
+    if (req.body.businessId != undefined) {
+        let result = await yelpClient.reviews(req.body.businessId);
+        res.json(result.jsonBody.reviews);
+    }
+    else {
+        res.redirect("/");
+    }
 }
