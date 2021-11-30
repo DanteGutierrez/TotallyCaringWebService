@@ -24,12 +24,12 @@ class CategoryCard extends React.Component {
 class Card extends React.Component {
     render() {
         return (
-            <div className="card contents container horizontal item spaceEvenly wireframe">
+            <div className="card contents container horizontal item spaceEvenly rounded">
                 <div className="smallImage item container vertical">
                     <img src={this.props.restaurant.image_url} alt="Restaurant" className="restaurantImage"/>
                 </div>
                 <div className="item cardText container vertical">
-                    <a href={this.props.restaurant.url} className="item noTextDecoration wireframe">
+                    <a href={this.props.restaurant.url} className="item noTextDecoration">
                         <div>{this.props.restaurant.name}</div>
                     </a>
                     <div className="container horizontal spaceBetween maxWidth">
@@ -43,7 +43,7 @@ class Card extends React.Component {
                         </div>
                     </div>
                 </div>
-                <a href={this.props.restaurant.url} className="item noTextDecoration wireframe">&nbsp;&#10247;</a>
+                <a href={this.props.restaurant.url} className="item noTextDecoration">&nbsp;&#10247;</a>
             </div>
         )
     }
