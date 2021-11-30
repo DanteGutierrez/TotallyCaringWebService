@@ -3,6 +3,7 @@ const url = 'mongodb://totally-caring-web-service:F4UX3UzubsvmqsgDt2ktYZZixdVtiX
 const client = new MongoClient(url);
 const dbName = 'test';
 const db = client.db(dbName);
+const webURL = require('url');
 
 const addObject = async (collectionName, object) => {
     let collection = db.collection(collectionName);
@@ -149,7 +150,7 @@ exports.processUser = async (req, res) => {
                     password: req.body.password
                 };
                 result = await addObject("users", user);
-                res.redirect(`/api/users/${result.insertedId.toString()}`);
+                res.send(`https://${req.get('host')}/api/users/${result.insertedId.toString()}`)
                 break;
             case "PUT":
                 user = {
@@ -157,7 +158,7 @@ exports.processUser = async (req, res) => {
                     password: req.body.password
                 };
                 result = await updateOneObject("users", { _id: ObjectId(req.params.id) }, { $set: user });
-                res.redirect(`/api/users/${req.params.id}`);
+                res.send(`https://${req.get('host')}/api/users/${req.params.id}`)
                 break;
             case "DELETE":
                 result = await deleteOneObject("users", { _id: ObjectId(req.params.id) });
@@ -177,7 +178,7 @@ exports.processUser = async (req, res) => {
             password: req.body.password
         };
         result = await addObject("users", user);
-        res.redirect(`/api/users/${result.insertedId.toString()}`);
+        res.send(`https://${req.get('host')}/api/users/${result.insertedId.toString()}`)
     }
 };
 
@@ -294,7 +295,7 @@ exports.processReview = async (req, res) => {
                     editdate: date
                 };
                 result = await addObject("reviews", review);
-                res.redirect(`/api/reviews/${result.insertedId.toString()}`);
+                res.send(`https://${req.get('host')}/api/reviews/${result.insertedId.toString()}`);
                 break;
             case "PUT":
                 review = {
@@ -303,7 +304,7 @@ exports.processReview = async (req, res) => {
                     editdate: date
                 };
                 result = await updateOneObject("reviews", { _id: ObjectId(req.params.id) }, { $set: review });
-                res.redirect(`/api/reviews/${req.params.id}`);
+                res.send(`https://${req.get('host')}/api/reviews/${req.params.id}`);
                 break;
             case "DELETE":
                 result = await deleteOneObject("reviews", { _id: ObjectId(req.params.id) });
@@ -324,7 +325,7 @@ exports.processReview = async (req, res) => {
             editdate: date
         };
         result = await addObject("reviews", review);
-        res.redirect(`/api/reviews/${result.insertedId.toString()}`);
+        res.send(`https://${req.get('host')}/api/reviews/${result.insertedId.toString()}`);
     }
 };
 
