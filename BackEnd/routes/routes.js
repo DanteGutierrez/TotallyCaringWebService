@@ -188,7 +188,7 @@ exports.updateUser = async (req, res) => {
         password: req.body.password
     };
     result = await updateOneObject("users", { _id: ObjectId(req.params.id) }, { $set: user });
-    res.redirect(`/api/users/${req.params.id}`);
+    res.send(`https://${req.get('host')}/api/users/${req.params.id}`);
 };
 
 exports.deleteUser = async (req, res) => {
@@ -336,7 +336,7 @@ exports.updateReview = async (req, res) => {
         editdate: date
     };
     result = await updateOneObject("reviews", { _id: ObjectId(req.params.id) }, { $set: review });
-    res.redirect(`/api/reviews/${req.params.id}`);
+    res.send(`https://${req.get('host')}/api/reviews/${req.params.id}`);
 };
 
 exports.deleteReview = async (req, res) => {
