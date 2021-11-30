@@ -1,15 +1,7 @@
 import React from 'react';
 import './HomePage.css';
 
-const url = "https://eatd-8s2kk.ondigitalocean.app/yelp/businesses";
 
-const term = "Burgers";
-const location = "Salt Lake City, UT";
-
-let search = {
-    term: term,
-    location: location
-};
 
 class CategoryCard extends React.Component {
     render() {
@@ -64,19 +56,10 @@ class CardHost extends React.Component {
 }
 
 class HomeFrame extends React.Component {
-    constructor() {
-        super();
-        this.state = { restaurantInformation: [] };
-    }
-    componentDidMount() {
-        fetch(url, {method: "POST", body: new URLSearchParams(search)})
-            .then(res => res.json())
-            .then(json => this.setState({ restaurantInformation: json }));
-    }
     render() {
         return (
             <div id="HomeFrame" className="container vertical maxWidth maxHeight wireframe">
-                <CardHost restaurants={this.state.restaurantInformation} />
+                <CardHost restaurants={this.props.restaurants} />
             </div>
         );
     };
@@ -86,7 +69,7 @@ class HomeFrame extends React.Component {
 class HomePage extends React.Component {
     render() {
         return (
-            <HomeFrame />
+            <HomeFrame restaurants={this.props.restaurants}/>
         )
     }
 }

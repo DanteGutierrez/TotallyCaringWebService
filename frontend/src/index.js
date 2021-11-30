@@ -3,21 +3,61 @@ import './index.css';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import NavigationBar from './components/NavigationBar';
 import HomePage from './components/HomePage';
 import AccountInformation from './components/AccountInformation';
 
+const url = "https://eatd-8s2kk.ondigitalocean.app/yelp/businesses";
+
 class App extends React.Component {
+    constructor() {
+        super();
+        // navigator.geolocation.getCurrentPosition(
+        //     data => {
+        //         console.log(data);
+        //     },
+        //     error => console.log(error), {
+        //     enableHighAccuracy: true
+        // }
+        // );
+        this.state = {
+            search: {
+                term: "Ice Cream",
+                location: "Salt Lake City, UT"
+            },
+            restaurantInformation: []
+        };
+        this.updateSearch = this.updateSearch.bind(this);
+        this.getRestaurant = this.getRestaurant.bind(this);
+    }
+    updateSearch = (evt) => {
+        evt.preventDefault();
+        this.setState({
+            search: {
+                term: evt.target.term.value,
+                location: evt.target.location.value
+            }
+        }, () => {
+            this.getRestaurant();
+        })
+    }
+    getRestaurant = () => {
+        fetch(url, { method: "POST", body: new URLSearchParams(this.state.search) })
+            .then(res => res.json())
+            .then(json => this.setState({ restaurantInformation: json }));
+    }
+    componentDidMount() {
+        this.getRestaurant();
+    }
     render() {
         return (
             <div id="App" className="container vertical maxWidth maxHeight">
-                <NavigationBar />
+                <NavigationBar onSubmit={evt => this.updateSearch(evt)} />
                 <Routes>
-                    <Route exact path="/" element={<HomePage />}/>
+                    <Route exact path="/" element={<HomePage restaurants={this.state.restaurantInformation}/>}/>
                     <Route path="/account" element={<AccountInformation />}/>
-                    <Route path="/more" element={<h1>More</h1>}/>
                 </Routes>
             </div>
         )

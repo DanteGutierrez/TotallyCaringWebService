@@ -3,9 +3,7 @@ import './AccountInformation.css';
 import Reviews from './AccountReviews';
 import Favorites from './AccountFavorites';
 import Username from './AccountUsername';
-import ProfilePicture from './AccountProfilePicture';
-
-const testAccountId = "619c4120d9efc262d8d3bb4b";
+import Password from './AccountPassword';
 
 const url = "https://eatd-8s2kk.ondigitalocean.app/";
 
@@ -35,29 +33,21 @@ class MenuOption extends React.Component {
 
 }
 
-// class SideMenu extends React.Component {
-//     render() {
-//         return (
-            
-//         );
-//     };
-// }
-
 class DisplayConfigurations extends React.Component {
     render() {
         let selectedView;
         switch (this.props.selected) {
             case "Reviews":
-                selectedView = <Reviews url={url} accountId={testAccountId} account={this.props.account}/>;
+                selectedView = <Reviews account={this.props.account} reviews={this.props.reviews}/>;
                 break;
             case "Favorites":
-                selectedView = <Favorites url={url} accountId={testAccountId} account={this.props.account}/>;
+                selectedView = <Favorites url={url} account={this.props.account}/>;
                 break;
             case "Edit Username":
-                selectedView = <Username url={url} accountId={testAccountId} account={this.props.account}/>;
+                selectedView = <Username url={url} account={this.props.account} onSubmit={this.props.onSubmit}/>;
                 break;
-            case "Upload Picture":
-                selectedView = <ProfilePicture url={url} accountId={testAccountId} account={this.props.account}/>;
+            case "Edit Password":
+                selectedView = <Password url={url} account={this.props.account} onSubmit={this.props.onSubmit}/>;
                 break;
             default:
                 break;
@@ -80,13 +70,12 @@ class InteractiveAccountView extends React.Component {
                     "Reviews",
                     "Favorites",
                     "Edit Username",
-                    "Upload Picture"
+                    "Edit Password"
                 ]
             }
         };
     }
     handleMenuSwitch(item) {
-        console.log("clicked!")
         this.setState({
             config: {
                 selected: item,
@@ -94,7 +83,7 @@ class InteractiveAccountView extends React.Component {
                     "Reviews",
                     "Favorites",
                     "Edit Username",
-                    "Upload Picture"
+                    "Edit Password"
                 ]
             }
         })
@@ -107,27 +96,51 @@ class InteractiveAccountView extends React.Component {
                         return (<MenuOption key={option} option={option} onClick={evt => this.handleMenuSwitch(option)} selected={this.state.config.selected} />);
                     })}
                 </div>
-                <DisplayConfigurations selected={this.state.config.selected} account={this.props.account}/>
+                <DisplayConfigurations selected={this.state.config.selected} account={this.props.account} reviews={this.props.reviews} onSubmit={this.props.onSubmit}/>
             </div>
         );
     };
 }
-
 class Frame extends React.Component {
     constructor() {
         super();
-        this.state = { userInformation: [] };
+        this.state = {
+            userId: "619c4120d9efc262d8d3bb4b",
+            userInformation: [],
+            userReviews: []
+        };
+        this.handleSubmission = this.handleSubmission.bind(this);
+    }
+    getAccountInfo = async () => {
+        return fetch(url + "api/users/" + this.state.userId)
+            .then(res => res.json());
+    }
+    getReviews = async () => {
+        return fetch(url + "api/reviews/search?userid=" + this.state.userId)
+            .then(res => res.json());
+    }
+    handleSubmission = (evt) => {
+        evt.preventDefault();
+        console.log("here")
+        let form = {
+            name: evt.target.name.value,
+            password: evt.target.password.value
+        }
+        fetch(url + "api/users/" + this.state.userId, { method: "PUT", body: new URLSearchParams(form) })
+            //.then(res => console.log(res))
+            //.then(json => console.log(json))
     }
     componentDidMount() {
-        fetch(url + "api/users/" + testAccountId)
-            .then(res => res.json())
-            .then(json => this.setState({ userInformation: json }));
+        Promise.all([this.getAccountInfo(), this.getReviews()])
+            .then(([account, reviews]) => {
+                this.setState({userInformation: account, userReviews: reviews})
+        })
     }
     render() {
         return (
             <div id="Frame" className="container vertical maxWidth maxHeight wireframe">
                 <BasicInformation account={this.state.userInformation} />
-                <InteractiveAccountView account={this.state.userInformation}/>
+                <InteractiveAccountView account={this.state.userInformation} reviews={this.state.userReviews} onSubmit={evt => this.handleSubmission(evt)}/>
             </div>
         );
     };
