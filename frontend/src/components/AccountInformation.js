@@ -121,14 +121,15 @@ class Frame extends React.Component {
     }
     handleSubmission = (evt) => {
         evt.preventDefault();
-        console.log("here")
         let form = {
             name: evt.target.name.value,
             password: evt.target.password.value
         }
         fetch(url + "api/users/" + this.state.userId, { method: "PUT", body: new URLSearchParams(form) })
-            //.then(res => console.log(res))
-            //.then(json => console.log(json))
+            .then(res => fetch(res.url)
+                .then(res => res.json())
+                .then(json => this.setState({ userInformation: json }, () => console.log(this.state.userInformation)))
+            )
     }
     componentDidMount() {
         Promise.all([this.getAccountInfo(), this.getReviews()])
