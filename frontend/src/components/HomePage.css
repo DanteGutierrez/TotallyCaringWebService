@@ -13,6 +13,8 @@
 .card {
     float: top;
     width: 60%;
+    background-color: #70BFFF;
+    border: 3px solid #4c88e7;
 }
 .contents {
     font-size: 3vh;
@@ -40,7 +42,16 @@
     width: 60%;
     overflow:auto;
     justify-content:flex-start;
+    background-color: #336699;
 }
 #HomeFrame {
-    max-height: 90vh
+    max-height: 90vh;
+    background-color: #70BFFF;
+}
+
+.rounded {
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 15px;
 }

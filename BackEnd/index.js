@@ -3,7 +3,6 @@ const pug = require('pug');
 const bodyParser = require('body-parser');
 const path = require('path');
 const routes = require('./routes/routes');
-const { runInNewContext } = require('vm');
 const cors = require("cors");
 const port = process.env.PORT || 8080
 
@@ -52,9 +51,9 @@ app.delete("/api/reviews/:id", routes.deleteReview);
 
 //Yelp passthrough
 app.get("/yelp/getBusinesses", routes.yelpBusinessForm);
-app.get("/yelp/businesses", routes.yelpBusinesses);
+app.post("/yelp/businesses", urlencodedParser, routes.yelpBusinesses);
 app.get("/yelp/getReviews", routes.yelpReviewForm);
-app.get("/yelp/reviews", routes.yelpReviews);
+app.post("/yelp/reviews", urlencodedParser, routes.yelpReviews);
 
 
 app.listen(port);
