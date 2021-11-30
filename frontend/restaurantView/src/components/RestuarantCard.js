@@ -1,14 +1,5 @@
 import React from 'react';
 
-const url = "https://eatd-8s2kk.ondigitalocean.app/yelp/businesses";
-const term = "Burritos";
-const location = "West Valley City, UT";
-    
-let search = {
-  term: term, 
-  location: location
-};
-
 class CategoryCard extends React.Component {
   render() {
     return (
@@ -23,7 +14,7 @@ class Card extends React.Component {
   render() {
     return (
       <div className="card contents container horizontal item spaceEvenly rounded">
-        <div className="smallImage item container vertical">
+        <div className="largeImage item container vertical">
           <img src={this.props.restaurant.image_url} alt="Restaurant" className="restaurantImage"/>
         </div>
         <div className="item cardText container vertical">
