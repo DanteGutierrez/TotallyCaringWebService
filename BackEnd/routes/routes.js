@@ -375,8 +375,10 @@ exports.yelpBusinessForm = (req, res) => {
 exports.yelpBusinesses = async (req, res) => {
     let searchRequest = {};
     if (req.body.term != undefined) searchRequest.term = req.body.term;
-    if (req.body.location != undefined) {
-        searchRequest.location = req.body.location;
+    if (req.body.location != undefined || (req.body.longitude != undefined && req.body.latitude != undefined)) {
+        if(req.body.location) searchRequest.location = req.body.location;
+        if(req.body.longitude) searchRequest.longitude = req.body.longitude;
+        if(req.body.latitude) searchRequest.latitude = req.body.latitude;
         let result = await yelpClient.search(searchRequest);
         res.json(result.jsonBody.businesses);
     } 
