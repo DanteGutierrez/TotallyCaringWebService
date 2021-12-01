@@ -14,21 +14,11 @@ const url = "https://eatd-8s2kk.ondigitalocean.app/yelp/businesses";
 class App extends React.Component {
     constructor() {
         super();
-        // navigator.geolocation.getCurrentPosition(
-        //     data => {
-        //         console.log(data);
-        //     },
-        //     error => console.log(error), {
-        //     enableHighAccuracy: true
-        // }
-        // );
         this.state = {
-            search: {
-                term: "Ice Cream",
-                location: "Salt Lake City, UT"
-            },
+            search: {},
             restaurantInformation: []
         };
+        
         this.updateSearch = this.updateSearch.bind(this);
         this.getRestaurant = this.getRestaurant.bind(this);
     }
@@ -44,12 +34,31 @@ class App extends React.Component {
         })
     }
     getRestaurant = () => {
+        console.log(this.state.search)
         fetch(url, { method: "POST", body: new URLSearchParams(this.state.search) })
             .then(res => res.json())
             .then(json => this.setState({ restaurantInformation: json }));
     }
     componentDidMount() {
-        this.getRestaurant();
+        navigator.geolocation.getCurrentPosition(
+            data => {
+                this.setState({search: {
+                    longitude: data.coords.longitude,
+                    latitude: data.coords.latitude
+                }}, () => this.getRestaurant())
+            },
+            error => {
+                console.log(error)
+                this.setState({
+                    search: {
+                        term: "",
+                        location: "Salt Lake City, UT"
+                    }
+                }, () => this.getRestaurant())
+            }, {
+            enableHighAccuracy: true
+        }
+        );
     }
     render() {
         return (
