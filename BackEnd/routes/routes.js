@@ -289,6 +289,7 @@ exports.processReview = async (req, res) => {
                 review = {
                     restaurantid: req.body.restaurantid,
                     userid: ObjectId(req.body.userid),
+                    restaurantname: req.body.restaurantname,
                     comment: req.body.comment,
                     rating: req.body.rating,
                     creationdate: date,
@@ -319,6 +320,7 @@ exports.processReview = async (req, res) => {
         review = {
             restaurantid: req.body.restaurantid,
             userid: ObjectId(req.body.userid),
+            restaurantname: req.body.restaurantname,
             comment: req.body.comment,
             rating: req.body.rating,
             creationdate: date,
@@ -374,6 +376,7 @@ exports.processFavorite = async (req, res) => {
                 favorite = {
                     restaurantid: req.body.restaurantid,
                     userid: ObjectId(req.body.userid),
+                    restaurantname: req.body.restaurantname,
                     creationdate: date
                 };
                 result = await addObject("favorites", favorite);
@@ -399,6 +402,7 @@ exports.processFavorite = async (req, res) => {
         favorite = {
             restaurantid: req.body.restaurantid,
             userid: ObjectId(req.body.userid),
+            restaurantname: req.body.restaurantname,
             creationdate: date
         };
         result = await addObject("favorites", favorite);
@@ -471,6 +475,16 @@ exports.yelpReviews = async (req, res) => {
     if (req.body.businessId != undefined) {
         let result = await yelpClient.reviews(req.body.businessId);
         res.json(result.jsonBody.reviews);
+    }
+    else {
+        res.send("/");
+    }
+}
+
+exports.yelpSingleBusiness = async (req, res) => {
+    if (req.body.restaurantid != undefined) {
+        let result = await yelpClient.business(req.body.restaurantid);
+        res.json(result.jsonBody);
     }
     else {
         res.send("/");

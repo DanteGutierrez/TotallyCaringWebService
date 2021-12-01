@@ -61,6 +61,7 @@ app.get("/yelp/getBusinesses", routes.yelpBusinessForm);
 app.post("/yelp/businesses", urlencodedParser, routes.yelpBusinesses);
 app.get("/yelp/getReviews", routes.yelpReviewForm);
 app.post("/yelp/reviews", urlencodedParser, routes.yelpReviews);
+app.post("/yelp/singlebusiness", urlencodedParser, routes.yelpSingleBusiness);
 
 
 app.listen(port);

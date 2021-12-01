@@ -5,7 +5,7 @@ class Favorite extends React.Component {
     render() {
         return (
             <div className="item container horizontal wireframe">
-                {this.props.favorite.restaurantid}
+                {this.props.favorite.restaurantname}
                 <button onClick={this.props.onClick} className="favoriteButton item">
                     <img src="trashFavorites.png" alt={this.props.favorite._id} className="maxHeight maxWidth"/>
                 </button>

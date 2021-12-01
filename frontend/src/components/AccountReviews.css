@@ -10,6 +10,13 @@
     height: 5vh;
     aspect-ratio: 102 / 18;
 }
+.restaurantName {
+    font-size: 3vh;
+}
+.reviewerName {
+    font-size: 2vh;
+    font-weight: bold;
+}
 #ReviewFrame {
     max-height: 68vh;
     overflow:auto;

@@ -7,8 +7,13 @@ class Review extends React.Component {
             <div className="container horiztonal item">
                 <img src="./profilePicture.jpg" alt="Profile" className="reviewProfile item"/>
                 <div className="reviewContent container vertical item">
-                    {this.props.account.name}
+                    <div className="restaurantName">
+                        {this.props.review.restaurantname}
+                    </div>
                     <img src={"./ratings/" + this.props.review.rating + ".png"} alt="rating" className="reviewRating item" />
+                    <div className="reviewerName">
+                        {this.props.account.name}
+                    </div>
                     <div className="item">
                         {this.props.review.comment}
                     </div>
