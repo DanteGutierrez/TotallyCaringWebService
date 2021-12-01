@@ -44,7 +44,7 @@ class Card extends React.Component {
 class CardHost extends React.Component {
     render() {
         return (
-            <div id="CardHost" className="container vertical wireframe">
+            <div id="CardHost" className="container vertical">
                 {this.props.restaurants.map(restaurant => {
                     return (
                         <Card key={restaurant.id} restaurant={restaurant} />
@@ -58,7 +58,7 @@ class CardHost extends React.Component {
 class HomeFrame extends React.Component {
     render() {
         return (
-            <div id="HomeFrame" className="container vertical maxWidth maxHeight wireframe">
+            <div id="HomeFrame" className="container vertical maxWidth maxHeight">
                 <CardHost restaurants={this.props.restaurants} />
             </div>
         );

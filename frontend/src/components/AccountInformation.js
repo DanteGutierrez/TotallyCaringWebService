@@ -11,7 +11,7 @@ const url = "https://eatd-8s2kk.ondigitalocean.app/";
 class BasicInformation extends React.Component {
     render() {
         return (
-            <div id="BasicInfo" className="container horiztonal spaceEvenly wireframe">
+            <div id="BasicInfo" className="container horiztonal spaceEvenly">
                 <img src="./profilePicture.jpg" alt="Profile" id="Picture" className="item"></img>
                 <div id="Name" className="item">
                     {this.props.account.name}
@@ -25,7 +25,7 @@ class BasicInformation extends React.Component {
 class MenuOption extends React.Component {
     render() {
         return (
-            <button className={"option item wireframe" + (this.props.selected === this.props.option ? " selected" : "")} onClick={this.props.onClick}>
+            <button className={"option item" + (this.props.selected === this.props.option ? " selected" : "")} onClick={this.props.onClick}>
                 {this.props.option}
             </button>
         );
@@ -53,7 +53,7 @@ class DisplayConfigurations extends React.Component {
                 break;
         }
         return (
-            <div id="DisplayConfig" className="wireframe maxWidth maxHeight">
+            <div id="DisplayConfig" className="maxWidth maxHeight">
                 {selectedView}
             </div>
         );
@@ -90,8 +90,8 @@ class InteractiveAccountView extends React.Component {
     }
     render() {
         return (
-            <div id="InteractiveAccountView" className="container horizontal spaceEvenly wireframe maxWidth maxHeight">
-                <div id="SideMenu" className="container vertical wireframe">
+            <div id="InteractiveAccountView" className="container horizontal spaceEvenly maxWidth maxHeight">
+                <div id="SideMenu" className="container vertical">
                     {this.state.config.options.map(option => {
                         return (<MenuOption key={option} option={option} onClick={evt => this.handleMenuSwitch(option)} selected={this.state.config.selected} />);
                     })}
@@ -144,7 +144,7 @@ class Frame extends React.Component {
     }
     render() {
         return (
-            <div id="Frame" className="container vertical maxWidth maxHeight wireframe">
+            <div id="Frame" className="container vertical maxWidth maxHeight">
                 <BasicInformation account={this.state.userInformation} />
                 <InteractiveAccountView account={this.state.userInformation} reviews={this.state.userReviews} favorites={this.state.userFavorites} onSubmit={evt => this.handleSubmission(evt)}/>
             </div>
