@@ -15,9 +15,11 @@ class Favorites extends React.Component {
     render() {
         return (
             <div id="favoriteFrame" class="item maxHeight">
-                {this.props.favorites.map(favorite => {
-                    return <Favorite/>
-                })}
+                {
+                    this.props.favorites.map(favorite => {
+                        return <Favorite favorite={favorite}/>
+                    })
+                }
             </div>
         )
     }

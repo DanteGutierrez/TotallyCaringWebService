@@ -1,3 +1,6 @@
 #favoriteFrame{
     background-color: #70BFFF;
+    max-height: 68vh;
+    overflow:auto;
+    justify-content:flex-start;
 }
