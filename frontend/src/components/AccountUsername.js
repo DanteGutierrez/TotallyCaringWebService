@@ -1,9 +1,10 @@
 import React from 'react';
+import './AccountUsername.css';
 
 class Username extends React.Component {
     render() {
         return (
-            <form className="container vertical maxWidth maxHeight" onSubmit={this.props.onSubmit}>
+            <form id="changeUsername" className="container vertical maxWidth maxHeight" onSubmit={this.props.onSubmit}>
                 <input type="hidden" name="password" value={this.props.account.password} />
                 <label htmlFor="name" className="item">Name: </label>
                 <input type="text" name="name" placeholder="name" className="item"/>

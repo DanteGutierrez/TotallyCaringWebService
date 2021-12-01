@@ -12,7 +12,7 @@
 }
 .card {
     float: top;
-    width: 60%;
+    width: 50%;
     background-color: #70BFFF;
     border: 3px solid #4c88e7;
 }
@@ -38,15 +38,15 @@
     flex-wrap:wrap;
 }
 #CardHost {
-    height: 80%;
-    width: 60%;
+    height: 100%;
+    width: 100%;
     overflow:auto;
     justify-content:flex-start;
     background-color: #336699;
 }
 #HomeFrame {
     max-height: 90vh;
-    background-color: #70BFFF;
+    background-color: #336699;
 }
 
 .rounded {

@@ -2,10 +2,11 @@
   cursor: pointer;
 }
 .selected {
-  color: red;
+  color: blue;
 }
 #Frame {
   max-height: 90vh;
+  background-color: #4c88e7;
 }
 #BasicInfo {
   width: 100%;
