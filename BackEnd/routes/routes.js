@@ -110,7 +110,7 @@ exports.editUserForm = async (req, res) => {
         });
     }
     else {
-        res.redirect("/");
+        res.send("/");
     }
 };
 
@@ -130,7 +130,7 @@ exports.deleteUserForm = async (req, res) => {
             });
         }
         else {
-            res.redirect("/");
+            res.send("/");
         }
     }
 };
@@ -162,10 +162,10 @@ exports.processUser = async (req, res) => {
                 break;
             case "DELETE":
                 result = await deleteOneObject("users", { _id: ObjectId(req.params.id) });
-                res.redirect("/");
+                res.send("/");
                 break;
             default:
-                res.redirect("/");
+                res.send("/");
                 break;
         }
     }
@@ -193,7 +193,7 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     result = await deleteOneObject("users", { _id: ObjectId(req.params.id) });
-    res.redirect("/");
+    res.send("/");
 }
 
 exports.showUser = async (req, res) => {
@@ -213,7 +213,7 @@ exports.showUser = async (req, res) => {
         res.json(result);
     }
     else {
-        res.redirect("/");
+        res.send("/");
     }
 };
 
@@ -225,7 +225,7 @@ exports.addReviewForm = (req, res) => {
         userid = req.query.userid;
     }
     if(restaurantid == null || userid == null) {
-        res.redirect("/");
+        res.send("/");
     }
     else {
         res.render("addReviewForm", {
@@ -254,7 +254,7 @@ exports.editReviewForm = async (req, res) => {
         });
     }
     else {
-        res.redirect("/");
+        res.send("/");
     }
 };
 
@@ -274,7 +274,7 @@ exports.deleteReviewForm = async (req, res) => {
             });
         }
         else {
-            res.redirect("/");
+            res.send("/");
         }
     }
 }
@@ -308,10 +308,10 @@ exports.processReview = async (req, res) => {
                 break;
             case "DELETE":
                 result = await deleteOneObject("reviews", { _id: ObjectId(req.params.id) });
-                res.redirect("/");
+                res.send("/");
                 break;
             default:
-                res.redirect("/");
+                res.send("/");
                 break;
         }
     }
@@ -341,7 +341,7 @@ exports.updateReview = async (req, res) => {
 
 exports.deleteReview = async (req, res) => {
     result = await deleteOneObject("reviews", { _id: ObjectId(req.params.id) });
-    res.redirect("/");
+    res.send("/");
 };
 
 exports.showReview = async (req, res) => {
@@ -360,7 +360,7 @@ exports.showReview = async (req, res) => {
         res.json(review);
     }
     else {
-        res.redirect("/");
+        res.send("/");
     }
 }
 
@@ -388,10 +388,10 @@ exports.processFavorite = async (req, res) => {
                 break;
             case "DELETE":
                 result = await deleteOneObject("favorites", { _id: ObjectId(req.params.id) });
-                res.redirect("/");
+                res.send("/");
                 break;
             default:
-                res.redirect("/");
+                res.send("/");
                 break;
         }
     }
@@ -418,7 +418,7 @@ exports.updateFavorite = async (req, res) => {
 
 exports.deleteFavorite = async (req, res) => {
     result = await deleteOneObject("favorites", { _id: ObjectId(req.params.id) });
-    res.redirect("/");
+    res.send("/");
 };
 
 exports.showFavorite = async (req, res) => {
@@ -436,7 +436,7 @@ exports.showFavorite = async (req, res) => {
         res.json(favorite);
     }
     else {
-        res.redirect("/");
+        res.send("/");
     }
 }
 
@@ -459,7 +459,7 @@ exports.yelpBusinesses = async (req, res) => {
         res.json(result.jsonBody.businesses);
     } 
     else {
-        res.redirect("/");
+        res.send("/");
     }
 }
 
@@ -473,6 +473,6 @@ exports.yelpReviews = async (req, res) => {
         res.json(result.jsonBody.reviews);
     }
     else {
-        res.redirect("/");
+        res.send("/");
     }
 }

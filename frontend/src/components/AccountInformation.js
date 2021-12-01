@@ -41,7 +41,7 @@ class DisplayConfigurations extends React.Component {
                 selectedView = <Reviews account={this.props.account} reviews={this.props.reviews}/>;
                 break;
             case "Favorites":
-                selectedView = <Favorites url={url} account={this.props.account} favorites={this.props.favorites}/>;
+                selectedView = <Favorites url={url} account={this.props.account} favorites={this.props.favorites} onClick={this.props.onClick}/>;
                 break;
             case "Edit Username":
                 selectedView = <Username url={url} account={this.props.account} onSubmit={this.props.onSubmit}/>;
@@ -96,7 +96,7 @@ class InteractiveAccountView extends React.Component {
                         return (<MenuOption key={option} option={option} onClick={evt => this.handleMenuSwitch(option)} selected={this.state.config.selected} />);
                     })}
                 </div>
-                <DisplayConfigurations selected={this.state.config.selected} account={this.props.account} reviews={this.props.reviews} favorites={this.props.favorites} onSubmit={this.props.onSubmit}/>
+                <DisplayConfigurations selected={this.state.config.selected} account={this.props.account} reviews={this.props.reviews} favorites={this.props.favorites} onSubmit={this.props.onSubmit} onClick={this.props.onClick}/>
             </div>
         );
     };
@@ -111,6 +111,7 @@ class Frame extends React.Component {
             userFavorites: []
         };
         this.handleSubmission = this.handleSubmission.bind(this);
+        this.deleteOnClick = this.deleteOnClick.bind(this);
     }
     getAccountInfo = async () => {
         return fetch(url + "api/users/" + this.state.userId)
@@ -136,6 +137,11 @@ class Frame extends React.Component {
                 .then(json => this.setState({ userInformation: json }, () => console.log(this.state.userInformation)))
             )
     }
+    deleteOnClick = (evt) => {
+        fetch(url + "api/favorites/" + evt.target.alt, { method: "DELETE" })
+            .then(this.getFavorites()
+                .then(json => this.setState({userFavorites: json})))
+    }
     componentDidMount() {
         // Promise.all([this.getAccountInfo(), this.getReviews(), this.getFavorites()])
         //     .then(([account, reviews, favorites]) => {
@@ -160,7 +166,7 @@ class Frame extends React.Component {
         return (
             <div id="Frame" className="container vertical maxWidth maxHeight">
                 <BasicInformation account={this.state.userInformation} />
-                <InteractiveAccountView account={this.state.userInformation} reviews={this.state.userReviews} favorites={this.state.userFavorites} onSubmit={evt => this.handleSubmission(evt)}/>
+                <InteractiveAccountView account={this.state.userInformation} reviews={this.state.userReviews} favorites={this.state.userFavorites} onSubmit={evt => this.handleSubmission(evt)} onClick={evt => this.deleteOnClick(evt)}/>
             </div>
         );
     };

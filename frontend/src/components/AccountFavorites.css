@@ -1,3 +1,9 @@
+.favoriteButton {
+    background-color: rgba(0,0,0,0);
+    border: none;
+    height: 10vh;
+    aspect-ratio: 742 / 851;
+}
 #favoriteFrame{
     background-color: #70BFFF;
     max-height: 68vh;
