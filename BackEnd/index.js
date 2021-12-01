@@ -49,6 +49,13 @@ app.get("/api/reviews/:id", routes.showReview);
 app.put("/api/reviews/:id", urlencodedParser, routes.updateReview);
 app.delete("/api/reviews/:id", routes.deleteReview);
 
+//Favorites CRUD
+app.post("/api/favorites/:id", urlencodedParser, routes.processFavorite);
+app.get("/api/favorites/:id", routes.showFavorite);
+app.put("/api/favorites/:id", urlencodedParser, routes.updateFavorite);
+app.delete("/api/favorites/:id", routes.deleteFavorite);
+
+
 //Yelp passthrough
 app.get("/yelp/getBusinesses", routes.yelpBusinessForm);
 app.post("/yelp/businesses", urlencodedParser, routes.yelpBusinesses);

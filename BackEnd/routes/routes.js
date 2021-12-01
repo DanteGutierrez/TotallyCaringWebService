@@ -364,6 +364,82 @@ exports.showReview = async (req, res) => {
     }
 }
 
+exports.processFavorite = async (req, res) => {
+    let date = new Date(ISODateCreator());
+    let favorite = {};
+    let result;
+    if (req.body._method != undefined) {
+        switch (req.body._method) {
+            case "POST":
+                favorite = {
+                    restaurantid: req.body.restaurantid,
+                    userid: ObjectId(req.body.userid),
+                    creationdate: date
+                };
+                result = await addObject("favorites", favorite);
+                res.send(`https://${req.get('host')}/api/favorites/${result.insertedId.toString()}`);
+                break;
+            case "PUT":
+                // favorite = {
+                //     editdate: date
+                // };
+                // result = await updateOneObject("favorites", { _id: ObjectId(req.params.id) }, { $set: favorite });
+                res.send(`https://${req.get('host')}/api/favorites/${req.params.id}`);
+                break;
+            case "DELETE":
+                result = await deleteOneObject("favorites", { _id: ObjectId(req.params.id) });
+                res.redirect("/");
+                break;
+            default:
+                res.redirect("/");
+                break;
+        }
+    }
+    else {
+        favorite = {
+            restaurantid: req.body.restaurantid,
+            userid: ObjectId(req.body.userid),
+            creationdate: date
+        };
+        result = await addObject("favorites", favorite);
+        res.send(`https://${req.get('host')}/api/favorites/${result.insertedId.toString()}`);
+    }
+};
+
+exports.updateFavorite = async (req, res) => {
+    // favorite = {
+    //     comment: req.body.comment,
+    //     rating: req.body.rating,
+    //     editdate: date
+    // };
+    // result = await updateOneObject("favorites", { _id: ObjectId(req.params.id) }, { $set: review });
+    res.send(`https://${req.get('host')}/api/favorites/${req.params.id}`);
+};
+
+exports.deleteFavorite = async (req, res) => {
+    result = await deleteOneObject("favorites", { _id: ObjectId(req.params.id) });
+    res.redirect("/");
+};
+
+exports.showFavorite = async (req, res) => {
+    let query = {};
+    let favorite;
+    if (req.params.id == "search" && req.query != undefined) {
+        favorite = {};
+        if (req.query.userid != undefined) query.userid = ObjectId(req.query.userid);
+        favorite = await findManyObjects("favorites", query);
+    }
+    else if (req.params.id.toString().length == 24) {
+        favorite = await findOneObject("favorites", { _id: ObjectId(req.params.id) });
+    }
+    if (favorite != null) {
+        res.json(favorite);
+    }
+    else {
+        res.redirect("/");
+    }
+}
+
 const yelp = require('yelp-fusion');
 const yelpApiKey = 'fFejzpfTjCerq_1Wowjvg9K5yZBAWEky9PZcpbnYZOM13YYyFPIlb3uJuocXk5HK4Ic_hEo-_biM_nf7ZFOl3bOaUZdA4FzgPIsohbUa8it1BWZfIzoiC8_5EtmKYXYx';
 const yelpClient = yelp.client(yelpApiKey);

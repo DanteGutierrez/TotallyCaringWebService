@@ -41,7 +41,7 @@ class DisplayConfigurations extends React.Component {
                 selectedView = <Reviews account={this.props.account} reviews={this.props.reviews}/>;
                 break;
             case "Favorites":
-                selectedView = <Favorites url={url} account={this.props.account}/>;
+                selectedView = <Favorites url={url} account={this.props.account} favorites={this.props.favorites}/>;
                 break;
             case "Edit Username":
                 selectedView = <Username url={url} account={this.props.account} onSubmit={this.props.onSubmit}/>;
@@ -96,7 +96,7 @@ class InteractiveAccountView extends React.Component {
                         return (<MenuOption key={option} option={option} onClick={evt => this.handleMenuSwitch(option)} selected={this.state.config.selected} />);
                     })}
                 </div>
-                <DisplayConfigurations selected={this.state.config.selected} account={this.props.account} reviews={this.props.reviews} onSubmit={this.props.onSubmit}/>
+                <DisplayConfigurations selected={this.state.config.selected} account={this.props.account} reviews={this.props.reviews} favorites={this.props.favorites} onSubmit={this.props.onSubmit}/>
             </div>
         );
     };
@@ -107,7 +107,8 @@ class Frame extends React.Component {
         this.state = {
             userId: "619c4120d9efc262d8d3bb4b",
             userInformation: [],
-            userReviews: []
+            userReviews: [],
+            userFavorites: []
         };
         this.handleSubmission = this.handleSubmission.bind(this);
     }
@@ -117,6 +118,10 @@ class Frame extends React.Component {
     }
     getReviews = async () => {
         return fetch(url + "api/reviews/search?userid=" + this.state.userId)
+            .then(res => res.json());
+    }
+    getFavorites = async () => {
+        return fetch(url + "api/favorites/search?userid=" + this.state.userId)
             .then(res => res.json());
     }
     handleSubmission = (evt) => {
@@ -132,16 +137,16 @@ class Frame extends React.Component {
             )
     }
     componentDidMount() {
-        Promise.all([this.getAccountInfo(), this.getReviews()])
-            .then(([account, reviews]) => {
-                this.setState({userInformation: account, userReviews: reviews})
+        Promise.all([this.getAccountInfo(), this.getReviews(), this.getFavorites()])
+            .then(([account, reviews, favorites]) => {
+                this.setState({userInformation: account, userReviews: reviews, userFavorites: favorites})
         })
     }
     render() {
         return (
             <div id="Frame" className="container vertical maxWidth maxHeight wireframe">
                 <BasicInformation account={this.state.userInformation} />
-                <InteractiveAccountView account={this.state.userInformation} reviews={this.state.userReviews} onSubmit={evt => this.handleSubmission(evt)}/>
+                <InteractiveAccountView account={this.state.userInformation} reviews={this.state.userReviews} favorites={this.state.userFavorites} onSubmit={evt => this.handleSubmission(evt)}/>
             </div>
         );
     };
