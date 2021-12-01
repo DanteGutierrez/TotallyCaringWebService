@@ -137,10 +137,24 @@ class Frame extends React.Component {
             )
     }
     componentDidMount() {
-        Promise.all([this.getAccountInfo(), this.getReviews(), this.getFavorites()])
-            .then(([account, reviews, favorites]) => {
-                this.setState({userInformation: account, userReviews: reviews, userFavorites: favorites})
-        })
+        // Promise.all([this.getAccountInfo(), this.getReviews(), this.getFavorites()])
+        //     .then(([account, reviews, favorites]) => {
+        //         this.setState({userInformation: account, userReviews: reviews, userFavorites: favorites}, () => console.log(this.state.userInformation))
+        // })
+        this.getAccountInfo()
+            .then(json => {
+                this.setState({ userInformation: json }, () => {
+                    this.getReviews()
+                        .then(json => {
+                            this.setState({ userReviews: json }, () => {
+                                this.getFavorites()
+                                    .then(json => {
+                                        this.setState({userFavorites: json})
+                                    })
+                            })
+                        })
+                })
+            })
     }
     render() {
         return (
