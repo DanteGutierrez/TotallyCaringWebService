@@ -5,6 +5,7 @@
 }
 .restaurantImage {
     height: 100%;
+    user-select: none;
 }
 .noTextDecoration {
     text-decoration: none;
@@ -27,6 +28,7 @@
 .ratingImage {
     height: 4vh;
     aspect-ratio: 102 / 18;
+    user-select: none;
 }
 .categoryCard {
     margin-left: 1%;

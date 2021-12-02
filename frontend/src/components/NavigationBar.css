@@ -19,6 +19,7 @@
 #Logo {
     height: 90%;
     box-sizing: border-box;
+    user-select: none;
 }
 #NavigationBar {
     height: 10vh;
