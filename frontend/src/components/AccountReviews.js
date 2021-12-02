@@ -10,7 +10,7 @@ class Review extends React.Component {
                     <div className="restaurantName">
                         {this.props.review.restaurantname}
                     </div>
-                    <img src={"./ratings/" + this.props.review.rating + "Blue.png"} alt="rating" className="reviewRating item" />
+                    <img src={"./ratings/" + this.props.review.rating + ".png"} alt="rating" className="reviewRating item" />
                     <div className="reviewerName">
                         {this.props.account.name}
                     </div>
