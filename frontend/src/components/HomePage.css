@@ -46,6 +46,8 @@
     overflow:auto;
     justify-content:flex-start;
     background-image: url(https://www.discoverlosangeles.com/sites/default/files/images/2020-03/Wayfarer%20DTLA%20The%20Rooftop%20tables.jpg?width=1600&height=1200&fit=crop&quality=78&auto=webp);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 #darken{
     position: absolute;
