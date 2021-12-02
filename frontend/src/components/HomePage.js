@@ -47,6 +47,7 @@ class CardHost extends React.Component {
     render() {
         return (
             <div id="CardHost" className="container vertical">
+                <div id="darken"></div>
                 {this.props.restaurants.map(restaurant => {
                     return (
                         <Card key={restaurant.id} restaurant={restaurant} />

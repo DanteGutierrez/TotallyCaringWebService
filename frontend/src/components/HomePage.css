@@ -5,6 +5,7 @@
 }
 .restaurantImage {
     height: 100%;
+    user-select: none;
 }
 .noTextDecoration {
     text-decoration: none;
@@ -13,8 +14,10 @@
 .card {
     float: top;
     width: 50%;
+
     background-color: #70BFFF;
     border: 3px solid #4c88e7;
+    z-index: 2;
 }
 .contents {
     font-size: 3vh;
@@ -25,6 +28,7 @@
 .ratingImage {
     height: 4vh;
     aspect-ratio: 102 / 18;
+    user-select: none;
 }
 .categoryCard {
     margin-left: 1%;
@@ -33,6 +37,7 @@
     font-size: 1.5vh;
     padding: 3px;
     margin: 1px;
+    user-select: none;
 }
 .categoryContainer {
     flex-wrap:wrap;
@@ -42,11 +47,22 @@
     width: 100%;
     overflow:auto;
     justify-content:flex-start;
-    background-color: #336699;
+    background-image: url(https://www.discoverlosangeles.com/sites/default/files/images/2020-03/Wayfarer%20DTLA%20The%20Rooftop%20tables.jpg?width=1600&height=1200&fit=crop&quality=78&auto=webp);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#darken{
+    position: absolute;
+    height: 100%;
+    max-height: 90vh;
+    width: 99%;
+    background-color: #000;
+    opacity: .3;
+    z-index: 1;
 }
 #HomeFrame {
     max-height: 90vh;
-    background-color: #336699;
+    /* background-color: #336699; */
 }
 
 .rounded {
