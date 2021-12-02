@@ -17,6 +17,7 @@
   aspect-ratio: 1 / 1;
   margin-left: 1%;
   margin-right: 1%;
+  user-select: none;
 }
 #Name {
   text-align: left;
@@ -27,6 +28,7 @@
   margin-top: 5vh;
   max-height: 80vh;
   align-items: flex-start;
+  user-select: none;
 }
 #SideMenu {
   align-self: flex-start;
