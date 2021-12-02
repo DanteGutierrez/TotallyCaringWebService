@@ -1,5 +1,5 @@
 const { MongoClient, ObjectId } = require('mongodb');
-const url = 'mongodb://totally-caring-web-service:F4UX3UzubsvmqsgDt2ktYZZixdVtiXo5xf3TiUJulRvy8Qhts5wHM0SouYxvLW1jlyaAfccab4ox6A6e9bsSEg==@totally-caring-web-service.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=240000&appName=@totally-caring-web-service@';
+const url = "mongodb://eatd:UYrMX3Q5bSQknqYFNaGPiBLytQ1xuQA1fzZpr3KFcaWgDIOhhbrGbL11hN5IvwMJk35JZwhNQ5kDJ3To2iKVOg%3D%3D@eatd.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@eatd@";
 const client = new MongoClient(url);
 const dbName = 'test';
 const db = client.db(dbName);
