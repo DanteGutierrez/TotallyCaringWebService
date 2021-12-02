@@ -1,7 +1,6 @@
 import React from 'react';
+import { Nav } from 'react-bootstrap';
 import './HomePage.css';
-
-
 
 class CategoryCard extends React.Component {
     render() {
@@ -35,7 +34,10 @@ class Card extends React.Component {
                         </div>
                     </div>
                 </div>
-                <a href={this.props.restaurant.url} className="item noTextDecoration">&nbsp;&#10247;</a>
+                <Nav>
+                    <Nav.Item><Nav.Link href={"restaurant?id=" + this.props.restaurant.id} className="item noTextDecoration">&nbsp;&#10247;</Nav.Link></Nav.Item>
+                </Nav>
+                
             </div>
         )
     }

@@ -1,0 +1,16 @@
+#RestaurantCard {
+    align-items: flex-start;
+}
+.smallRestaurantImage {
+    height: 40vh;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+.restaurantBigName {
+    font-size: 10vh;
+    flex-grow: 1;
+    text-align:left;
+}
+.restaurantRatingView {
+    justify-content: flex-start;
+}

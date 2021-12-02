@@ -3,13 +3,19 @@ import './index.css';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 
-import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {useSearchParams, BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import NavigationBar from './components/NavigationBar';
 import HomePage from './components/HomePage';
 import AccountInformation from './components/AccountInformation';
+import Restaurant from './components/Restaurant';
 
 const url = "https://eatd-8s2kk.ondigitalocean.app/yelp/businesses";
+
+const SearchParamParse = () => {
+    const [searchParams] = useSearchParams();
+    return <Restaurant params={Object.fromEntries([...searchParams])}/>;
+}
 
 class App extends React.Component {
     constructor() {
@@ -66,7 +72,8 @@ class App extends React.Component {
                 <NavigationBar onSubmit={evt => this.updateSearch(evt)} />
                 <Routes>
                     <Route exact path="/" element={<HomePage restaurants={this.state.restaurantInformation}/>}/>
-                    <Route path="/account" element={<AccountInformation />}/>
+                    <Route path="/account" element={<AccountInformation />} />
+                    <Route path="/restaurant" element={<SearchParamParse/>} />
                 </Routes>
             </div>
         )
