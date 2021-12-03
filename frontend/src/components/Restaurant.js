@@ -110,14 +110,14 @@ class Restaurant extends React.Component {
     render() {
         return (
             <div id="RestaurantCard" className="container horizontal maxWidth maxHeight">
-                <div className="smallRestaurantImage item wireframe">
+                <div className="smallRestaurantImage item">
                     <img src={this.state.restaurant.image_url} alt="Restaurant" className="maxHeight"/>
                 </div>
-                <div id="RestaurantHeader" className="container vertical maxWidth item spaceEvenly wireframe">
-                    <div className="restaurantBigName item wireframe maxWidth">
+                <div id="RestaurantHeader" className="container vertical maxWidth item spaceEvenly">
+                    <div className="restaurantBigName item maxWidth">
                         {this.state.restaurant.name}
                     </div>
-                    <div className="restaurantRatingView container horizontal spaceBetween item wireframe maxWidth">
+                    <div className="restaurantRatingView container horizontal spaceBetween item maxWidth">
                         <img src={"./ratings/" + this.state.restaurant.rating + ".png"} alt={this.state.restaurant.rating + " star rating"} />
                         <button className="smallFavorite" onClick={evt => this.favorite(evt)}>
                             <img src={this.state.isFavorite ? "./favorited.png" : "./unfavorited.png"} alt="Favorite" className="favoriteButton maxHeight"/>

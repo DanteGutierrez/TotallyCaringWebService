@@ -24,3 +24,7 @@
 .favoriteButton {
     aspect-ratio: 1 / 1;
 }
+
+#ReviewFrame {
+    max-height: 50vh;
+}
