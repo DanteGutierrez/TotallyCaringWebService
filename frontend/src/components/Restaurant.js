@@ -109,7 +109,7 @@ class Restaurant extends React.Component {
     }
     render() {
         return (
-            <div id="RestaurantCard" className="container horizontal maxWidth maxHeight wireframe">
+            <div id="RestaurantCard" className="container horizontal maxWidth maxHeight">
                 <div className="smallRestaurantImage item wireframe">
                     <img src={this.state.restaurant.image_url} alt="Restaurant" className="maxHeight"/>
                 </div>
@@ -123,7 +123,7 @@ class Restaurant extends React.Component {
                             <img src={this.state.isFavorite ? "./favorited.png" : "./unfavorited.png"} alt="Favorite" className="favoriteButton maxHeight"/>
                         </button>
                     </div>
-                    <form className="addReview container horizontal wireframe item maxWidth" onSubmit={evt => this.addReview(evt)}>
+                    <form className="addReview container horizontal item maxWidth" onSubmit={evt => this.addReview(evt)}>
                         <label htmlFor="comment">Comment: </label>
                         <input type="text" name="comment" placeholder="Leave a Comment!" required={true} className="item" />
                         <label htmlFor="rating">Rating: </label>

@@ -1,5 +1,8 @@
 #RestaurantCard {
     align-items: flex-start;
+    max-height: 90vh;
+    overflow:hidden;
+    background-color: #4c88e7;
 }
 .smallRestaurantImage {
     height: 40vh;
