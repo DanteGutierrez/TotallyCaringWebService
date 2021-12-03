@@ -9,7 +9,7 @@ class NavigationBar extends React.Component {
                 <Navbar.Brand href="/" className="item"><img src="./Eatd.png" alt="Logo"id="Logo"/></Navbar.Brand>
                 <Form className="form-center container horizontal" onSubmit={this.props.onSubmit}>
                     <FormControl type="text" placeholder="Search Terms" name="term" className="item" />
-                    <FormControl type="text" placeholder="Location" name="location" className="item" required={true}/>
+                    <FormControl type="text" placeholder="Location" name="location" className="item"/>
                     <FormControl type="submit" value="Search!" className="item"/>
                 </Form>
                 <Navbar.Collapse id="basic-navbar-nav" className="container horiztonal spaceEvenly">

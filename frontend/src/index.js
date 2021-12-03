@@ -27,44 +27,53 @@ class App extends React.Component {
         
         this.updateSearch = this.updateSearch.bind(this);
         this.getRestaurant = this.getRestaurant.bind(this);
+        this.pullLocation = this.pullLocation.bind(this);
     }
     updateSearch = (evt) => {
         evt.preventDefault();
-        this.setState({
-            search: {
+        let search = {};
+        if (evt.target.location.value != '') {
+            search = {
                 term: evt.target.term.value,
                 location: evt.target.location.value
             }
-        }, () => {
+            this.setState({search: search}, () => {
+                evt.target.reset();
+                this.getRestaurant();
+            })
+        }
+        else {
+            search = this.pullLocation();
             evt.target.reset();
-            this.getRestaurant();
-        })
+        }
+        
     }
     getRestaurant = () => {
         fetch(url, { method: "POST", body: new URLSearchParams(this.state.search) })
             .then(res => res.json())
             .then(json => this.setState({ restaurantInformation: json }));
     }
-    componentDidMount() {
+    pullLocation = () => {
+        let search = {
+            term: "",
+            location: "Bakersfield, CA"
+        }
         navigator.geolocation.getCurrentPosition(
             data => {
-                this.setState({search: {
+                search = {
                     longitude: data.coords.longitude,
                     latitude: data.coords.latitude
-                }}, () => this.getRestaurant())
+                }
+                this.setState({search: search}, () => this.getRestaurant())
             },
             error => {
                 console.log(error)
-                this.setState({
-                    search: {
-                        term: "",
-                        location: "Salt Lake City, UT"
-                    }
-                }, () => this.getRestaurant())
-            }, {
-            enableHighAccuracy: true
-        }
+                this.setState({search: search}, () => this.getRestaurant())
+            }, { enableHighAccuracy: true }
         );
+    }
+    componentDidMount() {
+        this.pullLocation();
     }
     render() {
         return (
