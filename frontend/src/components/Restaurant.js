@@ -19,32 +19,22 @@ class Restaurant extends React.Component {
         this.getUser = this.getUser.bind(this);
         this.getReviews = this.getReviews.bind(this);
     }
-    getFavorite = () => {
-        fetch(url + "api/favorites/search?restaurantid=" + this.props.params.id)
+    getFavorite = async () => {
+        return fetch(url + "api/favorites/search?restaurantid=" + this.props.params.id + "&userid=" + this.state.userid)
             .then(res => res.json())
-            .then(json => {
-                if (json.length > 0) {
-                    this.setState({ isFavorite: true, favorite: json})
-                }
-                else {
-                    this.setState({ isFavorite: false })
-                }
-             })
+            
     }
-    getReviews = () => {
-        fetch(url + "api/reviews/search?restaurantid=" + this.props.params.id)
+    getReviews = async () => {
+        return fetch(url + "api/reviews/search?restaurantid=" + this.props.params.id)
             .then(res => res.json())
-            .then(json => this.setState({ reviews: json }, () => console.log(this.state.reviews)));
     }
-    getUser = () => {
-        fetch(url + "api/users/" + this.state.userid)
+    getUser = async () => {
+        return fetch(url + "api/users/" + this.state.userid)
             .then(res => res.json())
-            .then(json => this.setState({ user: json }, () => console.log(this.state.user)));
     }
-    getRestaurant = () => {
-        fetch(url + "yelp/singlebusiness/", { method: "POST", body: new URLSearchParams({restaurantid: this.props.params.id})})
+    getRestaurant = async () => {
+        return fetch(url + "yelp/singlebusiness/", { method: "POST", body: new URLSearchParams({restaurantid: this.props.params.id})})
             .then(res => res.json())
-            .then(json => this.setState({restaurant: json}, () => console.log(this.state.restaurant)))
     }
     addReview = (evt) => {
         evt.preventDefault();
@@ -61,17 +51,61 @@ class Restaurant extends React.Component {
     }
     favorite = evt => {
         if (this.state.isFavorite) {
-            fetch(url + "api/favorites/" + this.state.favorite._id, {method: "DELETE"})
+            fetch(url + "api/favorites/" + this.state.favorite[0]._id, { method: "DELETE" })
+                .then(() => {
+                    this.getFavorite()
+                        .then(json => {
+                            if (json.length > 0) {
+                                this.setState({ isFavorite: true, favorite: json }, () => console.log("is favorited"))
+                            }
+                            else {
+                                this.setState({ isFavorite: false, favorite: [] }, () => console.log("is not favorited"))
+                            }
+                        })
+                })
         }
         else {
-            fetch(url + "api/favorites/create", { method: "POST", body: new URLSearchParams({restaurantid: this.props.params.id, userid: this.state.userid, restaurantname: this.state.restaurant.name})})
+            fetch(url + "api/favorites/create", { method: "POST", body: new URLSearchParams({ restaurantid: this.props.params.id, userid: this.state.userid, restaurantname: this.state.restaurant.name }) })
+                .then(() => {
+                    this.getFavorite()
+                        .then(json => {
+                            if (json.length > 0) {
+                                this.setState({ isFavorite: true, favorite: json }, () => console.log("is favorited"))
+                            }
+                            else {
+                                this.setState({ isFavorite: false, favorite: [] }, () => console.log("is not favorited"))
+                            }
+                        })
+                })
         }
-        // this.getFavorite();
+        
     }
     componentDidMount() {
-        this.getRestaurant();
-        this.getUser();
-        this.getReviews();
+        this.getRestaurant()
+            .then(json => {
+                this.setState({ restaurant: json }, () => {
+                    this.getUser()
+                        .then(json => {
+                            this.setState({ user: json }, () => {
+                                this.getReviews()
+                                    .then(json => {
+                                        this.setState({ reviews: json }, () => {
+                                            this.getFavorite()
+                                                .then(json => {
+                                                    if (json.length > 0) {
+                                                        this.setState({isFavorite: true, favorite: json}, () => console.log("is favorited"))
+                                                    }
+                                                    else {
+                                                        this.setState({isFavorite: false, favorite: []}, () => console.log("is not favorited"))
+                                                    }
+                                                })
+                                        })
+                                    })
+                            })
+                        })
+                })
+            })
+        
     }
     render() {
         return (
@@ -86,7 +120,7 @@ class Restaurant extends React.Component {
                     <div className="restaurantRatingView container horizontal spaceBetween item wireframe maxWidth">
                         <img src={"./ratings/" + this.state.restaurant.rating + ".png"} alt={this.state.restaurant.rating + " star rating"} />
                         <button className="smallFavorite" onClick={evt => this.favorite(evt)}>
-                            <img src="./trashFavorites.png" alt="Favorite" className="favoriteButton maxHeight"/>
+                            <img src={this.state.isFavorite ? "./favorited.png" : "./unfavorited.png"} alt="Favorite" className="favoriteButton maxHeight"/>
                         </button>
                     </div>
                     <form className="addReview container horizontal wireframe item maxWidth" onSubmit={evt => this.addReview(evt)}>
