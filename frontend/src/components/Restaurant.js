@@ -46,7 +46,11 @@ class Restaurant extends React.Component {
             rating: evt.target.rating.value
         }
         fetch(url + "api/reviews/create", { method: "POST", body: new URLSearchParams(review) })
-            .then(() => this.getReviews());
+            .then(() => this.getReviews()
+                .then(json => {
+                    this.setState({ reviews: json }, () => evt.target.reset())
+                })
+            )
         
     }
     favorite = evt => {
@@ -56,10 +60,10 @@ class Restaurant extends React.Component {
                     this.getFavorite()
                         .then(json => {
                             if (json.length > 0) {
-                                this.setState({ isFavorite: true, favorite: json }, () => console.log("is favorited"))
+                                this.setState({ isFavorite: true, favorite: json })
                             }
                             else {
-                                this.setState({ isFavorite: false, favorite: [] }, () => console.log("is not favorited"))
+                                this.setState({ isFavorite: false, favorite: [] })
                             }
                         })
                 })
@@ -70,10 +74,10 @@ class Restaurant extends React.Component {
                     this.getFavorite()
                         .then(json => {
                             if (json.length > 0) {
-                                this.setState({ isFavorite: true, favorite: json }, () => console.log("is favorited"))
+                                this.setState({ isFavorite: true, favorite: json })
                             }
                             else {
-                                this.setState({ isFavorite: false, favorite: [] }, () => console.log("is not favorited"))
+                                this.setState({ isFavorite: false, favorite: [] })
                             }
                         })
                 })
@@ -93,10 +97,10 @@ class Restaurant extends React.Component {
                                             this.getFavorite()
                                                 .then(json => {
                                                     if (json.length > 0) {
-                                                        this.setState({isFavorite: true, favorite: json}, () => console.log("is favorited"))
+                                                        this.setState({isFavorite: true, favorite: json})
                                                     }
                                                     else {
-                                                        this.setState({isFavorite: false, favorite: []}, () => console.log("is not favorited"))
+                                                        this.setState({isFavorite: false, favorite: []})
                                                     }
                                                 })
                                         })

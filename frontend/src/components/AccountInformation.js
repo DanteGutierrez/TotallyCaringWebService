@@ -134,8 +134,8 @@ class Frame extends React.Component {
         fetch(url + "api/users/" + this.state.userId, { method: "PUT", body: new URLSearchParams(form) })
             .then(res => fetch(res.url)
                 .then(res => res.json())
-                .then(json => this.setState({ userInformation: json }, () => console.log(this.state.userInformation)))
-            )
+                .then(json => this.setState({ userInformation: json }, () => evt.target.reset()))
+        )
     }
     deleteOnClick = (evt) => {
         fetch(url + "api/favorites/" + evt.target.alt, { method: "DELETE" })
@@ -143,10 +143,6 @@ class Frame extends React.Component {
                 .then(json => this.setState({userFavorites: json})))
     }
     componentDidMount() {
-        // Promise.all([this.getAccountInfo(), this.getReviews(), this.getFavorites()])
-        //     .then(([account, reviews, favorites]) => {
-        //         this.setState({userInformation: account, userReviews: reviews, userFavorites: favorites}, () => console.log(this.state.userInformation))
-        // })
         this.getAccountInfo()
             .then(json => {
                 this.setState({ userInformation: json }, () => {

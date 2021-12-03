@@ -36,11 +36,11 @@ class App extends React.Component {
                 location: evt.target.location.value
             }
         }, () => {
+            evt.target.reset();
             this.getRestaurant();
         })
     }
     getRestaurant = () => {
-        console.log(this.state.search)
         fetch(url, { method: "POST", body: new URLSearchParams(this.state.search) })
             .then(res => res.json())
             .then(json => this.setState({ restaurantInformation: json }));
