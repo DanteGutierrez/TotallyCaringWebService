@@ -11,6 +11,13 @@
     flex-grow: 1;
     text-align:left;
 }
-.restaurantRatingView {
-    justify-content: flex-start;
+.smallFavorite {
+    padding: 0;
+    background-color: rgba(0,0,0,0);
+    border: none;
+    height: 10vh;
+    aspect-ratio: 742 / 851;
+}
+.favoriteButton {
+    aspect-ratio: 742 / 851;
 }

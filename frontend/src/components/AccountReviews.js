@@ -4,7 +4,7 @@ import "./AccountReviews.css";
 class Review extends React.Component {
     render() {
         return (
-            <div className="container horiztonal item">
+            <div className="container horiztonal item reviewCard">
                 <img src="./profilePicture.jpg" alt="Profile" className="reviewProfile item"/>
                 <div className="reviewContent container vertical item">
                     <div className="restaurantName">

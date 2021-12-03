@@ -1,5 +1,5 @@
 const { MongoClient, ObjectId } = require('mongodb');
-const url = "mongodb://eatd:UYrMX3Q5bSQknqYFNaGPiBLytQ1xuQA1fzZpr3KFcaWgDIOhhbrGbL11hN5IvwMJk35JZwhNQ5kDJ3To2iKVOg%3D%3D@eatd.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@eatd@";
+const url = "mongodb://tcwseatd:gZdUoUIvbNnhaeyRnxlVIqdUE3yGry1InG5gtP37jTd4KXDGROYNKu3AnMciIEAUdu0xljnPo5PP0WXPKi0loQ==@tcwseatd.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@tcwseatd@";
 const client = new MongoClient(url);
 const dbName = 'test';
 const db = client.db(dbName);
@@ -430,6 +430,7 @@ exports.showFavorite = async (req, res) => {
     let favorite;
     if (req.params.id == "search" && req.query != undefined) {
         favorite = {};
+        if (req.query.restaurantid != undefined) query.restaurantid = req.qeury.restaurantid;
         if (req.query.userid != undefined) query.userid = ObjectId(req.query.userid);
         favorite = await findManyObjects("favorites", query);
     }

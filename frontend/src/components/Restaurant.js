@@ -1,5 +1,6 @@
 import React from 'react';
 import './Restaurant.css';
+import Review from './AccountReviews';
 
 const url = "https://eatd-8s2kk.ondigitalocean.app/";
 
@@ -7,12 +8,33 @@ class Restaurant extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userid: "61a824262bb8570c19e9e7d6",
+            userid: "61a974c80534fd44eb454b32",
             user: [],
-            restaurant: []
+            restaurant: [],
+            reviews: [],
+            isFavorite: false,
+            favorite: []
         }
         this.getRestaurant = this.getRestaurant.bind(this);
         this.getUser = this.getUser.bind(this);
+        this.getReviews = this.getReviews.bind(this);
+    }
+    getFavorite = () => {
+        fetch(url + "api/favorites/search?restaurantid=" + this.props.params.id)
+            .then(res => res.json())
+            .then(json => {
+                if (json.length > 0) {
+                    this.setState({ isFavorite: true, favorite: json})
+                }
+                else {
+                    this.setState({ isFavorite: false })
+                }
+             })
+    }
+    getReviews = () => {
+        fetch(url + "api/reviews/search?restaurantid=" + this.props.params.id)
+            .then(res => res.json())
+            .then(json => this.setState({ reviews: json }, () => console.log(this.state.reviews)));
     }
     getUser = () => {
         fetch(url + "api/users/" + this.state.userid)
@@ -33,11 +55,23 @@ class Restaurant extends React.Component {
             comment: evt.target.comment.value,
             rating: evt.target.rating.value
         }
-        fetch(url + "api/reviews/create", { method: "POST", body: new URLSearchParams(review) });
+        fetch(url + "api/reviews/create", { method: "POST", body: new URLSearchParams(review) })
+            .then(() => this.getReviews());
+        
+    }
+    favorite = evt => {
+        if (this.state.isFavorite) {
+            fetch(url + "api/favorites/" + this.state.favorite._id, {method: "DELETE"})
+        }
+        else {
+            fetch(url + "api/favorites/create", { method: "POST", body: new URLSearchParams({restaurantid: this.props.params.id, userid: this.state.userid, restaurantname: this.state.restaurant.name})})
+        }
+        // this.getFavorite();
     }
     componentDidMount() {
         this.getRestaurant();
         this.getUser();
+        this.getReviews();
     }
     render() {
         return (
@@ -49,8 +83,11 @@ class Restaurant extends React.Component {
                     <div className="restaurantBigName item wireframe maxWidth">
                         {this.state.restaurant.name}
                     </div>
-                    <div className="restaurantRatingView container horizontal item wireframe maxWidth">
+                    <div className="restaurantRatingView container horizontal spaceBetween item wireframe maxWidth">
                         <img src={"./ratings/" + this.state.restaurant.rating + ".png"} alt={this.state.restaurant.rating + " star rating"} />
+                        <button className="smallFavorite" onClick={evt => this.favorite(evt)}>
+                            <img src="./trashFavorites.png" alt="Favorite" className="favoriteButton maxHeight"/>
+                        </button>
                     </div>
                     <form className="addReview container horizontal wireframe item maxWidth" onSubmit={evt => this.addReview(evt)}>
                         <label htmlFor="comment">Comment: </label>
@@ -59,6 +96,7 @@ class Restaurant extends React.Component {
                         <input type="range" name="rating" min="1" max="5" step="1" defaultValue="4" className="item" />
                         <input type="submit" value="Comment!"/>
                     </form>
+                    <Review reviews={this.state.reviews} account={this.state.user}/>
                 </div>
             </div>
         )

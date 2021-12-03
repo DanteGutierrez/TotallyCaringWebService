@@ -6,6 +6,9 @@
 .reviewContent {
     align-items: flex-start;
 }
+.reviewCard {
+    justify-content: flex-start;
+}
 .reviewRating {
     height: 5vh;
     aspect-ratio: 102 / 18;
