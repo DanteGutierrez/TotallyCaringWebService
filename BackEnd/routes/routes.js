@@ -430,7 +430,7 @@ exports.showFavorite = async (req, res) => {
     let favorite;
     if (req.params.id == "search" && req.query != undefined) {
         favorite = {};
-        if (req.query.restaurantid != undefined) query.restaurantid = req.qeury.restaurantid;
+        if (req.query.restaurantid != undefined) query.restaurantid = req.query.restaurantid;
         if (req.query.userid != undefined) query.userid = ObjectId(req.query.userid);
         favorite = await findManyObjects("favorites", query);
     }
