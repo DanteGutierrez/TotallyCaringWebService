@@ -1,4 +1,5 @@
 import React from 'react';
+import { createStore } from 'react-redux';
 import './Login.css';
 
 const url = "https://eatd-8s2kk.ondigitalocean.app/";
@@ -10,6 +11,7 @@ class Login extends React.Component {
             .then(res => res.json());
         if (greenlight) {
             //create Session
+            jwt.sign()
         }
         evt.target.reset();
     }
