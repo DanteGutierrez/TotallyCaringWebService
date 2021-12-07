@@ -102,27 +102,21 @@ class InteractiveAccountView extends React.Component {
     };
 }
 class Frame extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            userId: "61aec30224bd9a3b59aef777",
-            userInformation: [],
             userReviews: [],
             userFavorites: []
         };
         this.handleSubmission = this.handleSubmission.bind(this);
         this.deleteOnClick = this.deleteOnClick.bind(this);
     }
-    getAccountInfo = async () => {
-        return fetch(url + "api/users/" + this.state.userId)
-            .then(res => res.json());
-    }
     getReviews = async () => {
-        return fetch(url + "api/reviews/search?userid=" + this.state.userId)
+        return fetch(url + "api/reviews/search?userid=" + this.props.user._id)
             .then(res => res.json());
     }
     getFavorites = async () => {
-        return fetch(url + "api/favorites/search?userid=" + this.state.userId)
+        return fetch(url + "api/favorites/search?userid=" + this.props.user._id)
             .then(res => res.json());
     }
     handleSubmission = (evt) => {
@@ -131,10 +125,11 @@ class Frame extends React.Component {
             name: evt.target.name.value,
             password: evt.target.password.value
         }
-        fetch(url + "api/users/" + this.state.userId, { method: "PUT", body: new URLSearchParams(form) })
-            .then(res => fetch(res.url)
-                .then(res => res.json())
-                .then(json => this.setState({ userInformation: json }, () => evt.target.reset()))
+        fetch(url + "api/users/" + this.props.user._id, { method: "PUT", body: new URLSearchParams(form) })
+            .then(res => {
+                this.props.updateAccount();
+                evt.target.reset();
+            }
         )
     }
     deleteOnClick = (evt) => {
@@ -143,17 +138,12 @@ class Frame extends React.Component {
                 .then(json => this.setState({userFavorites: json})))
     }
     componentDidMount() {
-        this.getAccountInfo()
+        this.getReviews()
             .then(json => {
-                this.setState({ userInformation: json }, () => {
-                    this.getReviews()
+                this.setState({ userReviews: json }, () => {
+                    this.getFavorites()
                         .then(json => {
-                            this.setState({ userReviews: json }, () => {
-                                this.getFavorites()
-                                    .then(json => {
-                                        this.setState({userFavorites: json})
-                                    })
-                            })
+                            this.setState({userFavorites: json})
                         })
                 })
             })
@@ -161,8 +151,8 @@ class Frame extends React.Component {
     render() {
         return (
             <div id="Frame" className="container vertical maxWidth maxHeight">
-                <BasicInformation account={this.state.userInformation} />
-                <InteractiveAccountView account={this.state.userInformation} reviews={this.state.userReviews} favorites={this.state.userFavorites} onSubmit={evt => this.handleSubmission(evt)} onClick={evt => this.deleteOnClick(evt)}/>
+                <BasicInformation account={this.props.user} />
+                <InteractiveAccountView account={this.props.user} reviews={this.state.userReviews} favorites={this.state.userFavorites} onSubmit={evt => this.handleSubmission(evt)} onClick={evt => this.deleteOnClick(evt)}/>
             </div>
         );
     };
@@ -171,7 +161,7 @@ class Frame extends React.Component {
 class AccountInformation extends React.Component {
     render() {
         return (
-            <Frame />
+            <Frame user={this.props.user} updateAccount={this.props.updateAccount}/>
         )
     }
 }
