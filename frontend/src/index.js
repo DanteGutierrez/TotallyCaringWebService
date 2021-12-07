@@ -34,7 +34,7 @@ class App extends React.Component {
     updateSearch = (evt) => {
         evt.preventDefault();
         let search = {};
-        if (evt.target.location.value != '') {
+        if (evt.target.location.value !== '') {
             search = {
                 term: evt.target.term.value,
                 location: evt.target.location.value
