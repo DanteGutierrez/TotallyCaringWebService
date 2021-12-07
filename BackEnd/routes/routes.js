@@ -13,18 +13,18 @@ const addObject = async (collectionName, object) => {
     return confirmation;
 };
 
-const findOneObject = async (collectionName, query) => {
+const findOneObject = async (collectionName, query, options) => {
     let collection = db.collection(collectionName);
     await client.connect();
-    let resultingData = await collection.findOne(query);
+    let resultingData = await collection.findOne(query, { projection: options});
     client.close();
     return resultingData;
 };
 
-const findManyObjects = async (collectionName, query) => {
+const findManyObjects = async (collectionName, query, options) => {
     let collection = db.collection(collectionName);
     await client.connect();
-    let resultingData = await collection.find(query).toArray();
+    let resultingData = await collection.find(query, { projection: options }).toArray();
     client.close();
     return resultingData;
 };
@@ -96,7 +96,7 @@ exports.editUserForm = async (req, res) => {
     let user;
     if (req.params.id.toString().length == 24) {
         if (req.body == undefined) {
-        user = await findOneObject("users", { _id: ObjectId(req.params.id) });
+            user = await findOneObject("users", { _id: ObjectId(req.params.id) }, {password: 0});
     }
     else {
         user = req.body;
@@ -118,7 +118,7 @@ exports.deleteUserForm = async (req, res) => {
     let user;
     if (req.params.id.toString().length == 24) {
         if (req.body == undefined) {
-            user = await findOneObject("users", { _id: ObjectId(req.params.id) });
+            user = await findOneObject("users", { _id: ObjectId(req.params.id) }, { password: 0 });
         }
         else {
             user = req.body;
@@ -199,7 +199,7 @@ exports.deleteUser = async (req, res) => {
 exports.showUser = async (req, res) => {
     let result;
     if (req.params.id.toString().length == 24) {
-        result = await findOneObject("users", { _id: ObjectId(req.params.id) });
+        result = await findOneObject("users", { _id: ObjectId(req.params.id) }, { password: 0 });
     }
     else if (req.params.id == "search" && req.query != undefined) {
         let query = {}
@@ -207,7 +207,7 @@ exports.showUser = async (req, res) => {
         if (req.query.email != undefined) query.email = req.query.email;
         // if (req.query.totalreviews != undefined) query.totalreviews = req.query.totalreviews;
         // if (req.query.joindate != undefined) query.joindate = req.query.joindate;
-        result = await findManyObjects("users", query);
+        result = await findManyObjects("users", query, { password: 0 });
     }
     if (result != null) {
         res.json(result);
@@ -216,6 +216,21 @@ exports.showUser = async (req, res) => {
         res.send("/");
     }
 };
+
+exports.checkLogin = async (req, res) => {
+    if (req.body.email != undefined && req.body.password != undefined) {
+        user = await findOneObject("users", { email: req.body.email, password: req.body.password }, {});
+        if (user != null) {
+            res.send(true);
+        }
+        else {
+            res.send(false);
+        }
+    }
+    else {
+        res.send("/");
+    }
+}
 
 exports.addReviewForm = (req, res) => {
     let restaurantid;
@@ -240,7 +255,7 @@ exports.editReviewForm = async (req, res) => {
     let review;
     if (req.params.id.toString().length == 24) {
         if (req.body == undefined) {
-            review = await findOneObject("reviews", { _id: ObjectId(req.params.id) });
+            review = await findOneObject("reviews", { _id: ObjectId(req.params.id) }, {});
         }
         else {
             review = req.body;
@@ -262,7 +277,7 @@ exports.deleteReviewForm = async (req, res) => {
     let review;
     if (req.params.id.toString().length == 24) {
         if (req.body == undefined) {
-            review = await findOneObject("reviews", { _id: ObjectId(req.params.id) });
+            review = await findOneObject("reviews", { _id: ObjectId(req.params.id) }, {});
         }
         else {
             review = req.body;
@@ -353,10 +368,10 @@ exports.showReview = async (req, res) => {
         review = {};
         if (req.query.restaurantid != undefined) query.restaurantid = req.query.restaurantid;
         if (req.query.userid != undefined) query.userid = ObjectId(req.query.userid);
-        review = await findManyObjects("reviews", query);
+        review = await findManyObjects("reviews", query, {});
     }
     else if (req.params.id.toString().length == 24) {
-        review = await findOneObject("reviews", {_id: ObjectId(req.params.id)});
+        review = await findOneObject("reviews", { _id: ObjectId(req.params.id) }, {});
     }
     if (review != null) {
         res.json(review);
@@ -432,10 +447,10 @@ exports.showFavorite = async (req, res) => {
         favorite = {};
         if (req.query.restaurantid != undefined) query.restaurantid = req.query.restaurantid;
         if (req.query.userid != undefined) query.userid = ObjectId(req.query.userid);
-        favorite = await findManyObjects("favorites", query);
+        favorite = await findManyObjects("favorites", query, {});
     }
     else if (req.params.id.toString().length == 24) {
-        favorite = await findOneObject("favorites", { _id: ObjectId(req.params.id) });
+        favorite = await findOneObject("favorites", { _id: ObjectId(req.params.id) }, {});
     }
     if (favorite != null) {
         res.json(favorite);
