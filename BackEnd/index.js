@@ -36,7 +36,7 @@ app.get("/addUser", routes.addUserForm);
 //User CRUD
 app.post("/api/users/:id", urlencodedParser, routes.processUser);
 app.get("/api/users/:id", routes.showUser);
-//app.put("/api/users/:id", urlencodedParser, routes.updateUser);
+app.put("/api/users/:id", urlencodedParser, routes.updateUser);
 //app.delete("/api/users/:id", routes.deleteUser);
 
 app.post("/api/checklogin", urlencodedParser, routes.checkLogin);
@@ -56,7 +56,7 @@ app.get("/api/reviews/:id", routes.showReview);
 app.post("/api/favorites/:id", urlencodedParser, routes.processFavorite);
 app.get("/api/favorites/:id", routes.showFavorite);
 //app.put("/api/favorites/:id", urlencodedParser, routes.updateFavorite);
-//app.delete("/api/favorites/:id", routes.deleteFavorite);
+app.delete("/api/favorites/:id", routes.deleteFavorite);
 
 
 //Yelp passthrough
