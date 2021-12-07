@@ -3,7 +3,9 @@ import './index.css';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 
-import {useSearchParams, BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useSearchParams, BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Cookies from 'js-cookie';
 
 import NavigationBar from './components/NavigationBar';
 import HomePage from './components/HomePage';
@@ -31,6 +33,13 @@ class App extends React.Component {
         this.getRestaurant = this.getRestaurant.bind(this);
         this.pullLocation = this.pullLocation.bind(this);
     }
+    setRecentCookie = () => {
+        Cookies.set('search', JSON.stringify(this.state.search), { path: '/' });
+    }
+    useRecentCookie = evt => {
+        console.log("clicked!")
+        this.setState({ search: JSON.parse(Cookies.get('search')) }, () => this.getRestaurant());
+    }
     updateSearch = (evt) => {
         evt.preventDefault();
         let search = {};
@@ -41,13 +50,16 @@ class App extends React.Component {
             }
             this.setState({search: search}, () => {
                 evt.target.reset();
+                this.setRecentCookie();
                 this.getRestaurant();
             })
+            
         }
         else {
             search = this.pullLocation();
             evt.target.reset();
         }
+        
         
     }
     getRestaurant = () => {
@@ -80,7 +92,7 @@ class App extends React.Component {
     render() {
         return (
             <div id="App" className="container vertical maxWidth maxHeight">
-                <NavigationBar onSubmit={evt => this.updateSearch(evt)} />
+                <NavigationBar onSubmit={evt => this.updateSearch(evt)} cookie={evt => this.useRecentCookie(evt)}/>
                 <Routes>
                     <Route exact path="/" element={<HomePage restaurants={this.state.restaurantInformation}/>}/>
                     <Route path="/account" element={<AccountInformation />} />
