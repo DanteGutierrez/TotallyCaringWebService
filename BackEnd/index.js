@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const routes = require('./routes/routes');
 const cors = require("cors");
+const { urlencoded } = require('express');
 const port = process.env.PORT || 8080
 
 const app = express();
@@ -29,31 +30,33 @@ app.get("/", routes.index);
 
 //User Manipulation Forms
 app.get("/addUser", routes.addUserForm);
-app.get("/editUser/:id", routes.editUserForm);
-app.get("/deleteUser/:id", routes.deleteUserForm);
+//app.get("/editUser/:id", routes.editUserForm);
+//app.get("/deleteUser/:id", routes.deleteUserForm);
 
 //User CRUD
 app.post("/api/users/:id", urlencodedParser, routes.processUser);
 app.get("/api/users/:id", routes.showUser);
-app.put("/api/users/:id", urlencodedParser, routes.updateUser);
-app.delete("/api/users/:id", routes.deleteUser);
+//app.put("/api/users/:id", urlencodedParser, routes.updateUser);
+//app.delete("/api/users/:id", routes.deleteUser);
+
+app.post("/api/checklogin", urlencodedParser, routes.checkLogin);
 
 //Review Manipulation Forms
 app.get("/addReview", routes.addReviewForm);
-app.get("/editReview/:id", routes.editReviewForm);
-app.get("/deleteReview/:id", routes.deleteReviewForm);
+//app.get("/editReview/:id", routes.editReviewForm);
+//app.get("/deleteReview/:id", routes.deleteReviewForm);
 
 //Review CRUD
 app.post("/api/reviews/:id", urlencodedParser, routes.processReview);
 app.get("/api/reviews/:id", routes.showReview);
-app.put("/api/reviews/:id", urlencodedParser, routes.updateReview);
-app.delete("/api/reviews/:id", routes.deleteReview);
+//app.put("/api/reviews/:id", urlencodedParser, routes.updateReview);
+//app.delete("/api/reviews/:id", routes.deleteReview);
 
 //Favorites CRUD
 app.post("/api/favorites/:id", urlencodedParser, routes.processFavorite);
 app.get("/api/favorites/:id", routes.showFavorite);
-app.put("/api/favorites/:id", urlencodedParser, routes.updateFavorite);
-app.delete("/api/favorites/:id", routes.deleteFavorite);
+//app.put("/api/favorites/:id", urlencodedParser, routes.updateFavorite);
+//app.delete("/api/favorites/:id", routes.deleteFavorite);
 
 
 //Yelp passthrough
