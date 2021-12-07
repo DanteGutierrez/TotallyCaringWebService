@@ -9,6 +9,8 @@ import NavigationBar from './components/NavigationBar';
 import HomePage from './components/HomePage';
 import AccountInformation from './components/AccountInformation';
 import Restaurant from './components/Restaurant';
+import Login from './components/Login';
+import Logout from './components/Logout';
 
 const url = "https://eatd-8s2kk.ondigitalocean.app/yelp/businesses";
 
@@ -82,7 +84,9 @@ class App extends React.Component {
                 <Routes>
                     <Route exact path="/" element={<HomePage restaurants={this.state.restaurantInformation}/>}/>
                     <Route path="/account" element={<AccountInformation />} />
-                    <Route path="/restaurant" element={<SearchParamParse/>} />
+                    <Route path="/restaurant" element={<SearchParamParse />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/logout" element={<Logout />}/>
                 </Routes>
             </div>
         )
