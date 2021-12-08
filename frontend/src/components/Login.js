@@ -1,8 +1,14 @@
 import React from 'react';
-import { createStore } from 'react-redux';
+import { useState, useEffect } from 'react';
 import './Login.css';
 
 const url = "https://eatd-8s2kk.ondigitalocean.app/";
+
+const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem("user");
+    const initialValue= JSON.parse(saved);
+    return initialValue || "";
+});
 
 class Login extends React.Component {
     LoginCheck = async (evt) => {
@@ -11,7 +17,9 @@ class Login extends React.Component {
             .then(res => res.json());
         if (greenlight) {
             //create Session
-            jwt.sign()
+            useEffect(() => {
+                localStorage.setItem("user", JSON.stringify(user));
+            });
         }
         evt.target.reset();
     }
