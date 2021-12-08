@@ -16,16 +16,16 @@ import Logout from './components/Logout';
 
 const url = "https://eatd-8s2kk.ondigitalocean.app/";
 
-const SearchParamParse = () => {
+const SearchParamParse = (props) => {
     const [searchParams] = useSearchParams();
-    return <Restaurant params={Object.fromEntries([...searchParams])}/>;
+    return <Restaurant params={Object.fromEntries([...searchParams])} userid={props.userid} getReviews={props.getReviews}/>;
 }
 
 class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            userId: "61aec30224bd9a3b59aef777",
+            userid: "61aec30224bd9a3b59aef777",
             user: {},
             search: {},
             restaurantInformation: []
@@ -36,10 +36,24 @@ class App extends React.Component {
         this.pullLocation = this.pullLocation.bind(this);
         this.getAccountInformation = this.getAccountInformation.bind(this);
     }
-    getAccountInformation = async () => {
-        return fetch(url + "api/users/" + this.state.userId)
+    getAdvancedReviews = async (params) => {
+        let json = await fetch(url + "api/reviews/search?" + params)
             .then(res => res.json())
-            
+        let promise = json.map(async (entry) => {
+            return fetch(url + "api/users/" + entry.userid)
+                .then(res => res.json())
+                .then(userJSON => {
+                    entry.username = userJSON.name
+                })
+        })
+        return Promise.all(promise).then(() => {
+            return json
+        });
+    }
+    getAccountInformation = () => {
+        fetch(url + "api/users/" + this.state.userid)
+            .then(res => res.json())
+            .then(json => this.setState({ user: json }));
     }
     setRecentCookie = () => {
         Cookies.set('search', JSON.stringify(this.state.search), { path: '/' });
@@ -61,14 +75,11 @@ class App extends React.Component {
                 this.setRecentCookie();
                 this.getRestaurant();
             })
-            
         }
         else {
             search = this.pullLocation();
             evt.target.reset();
         }
-        
-        
     }
     getRestaurant = () => {
         fetch(url + "yelp/businesses", { method: "POST", body: new URLSearchParams(this.state.search) })
@@ -95,12 +106,8 @@ class App extends React.Component {
         );
     }
     componentDidMount() {
-        this.getAccountInformation()
-            .then(json => {
-                this.setState({ user: json }, () => {
-                    this.pullLocation();
-                })
-            });
+        this.getAccountInformation();
+        this.pullLocation();
     }
     render() {
         return (
@@ -108,8 +115,8 @@ class App extends React.Component {
                 <NavigationBar onSubmit={evt => this.updateSearch(evt)} cookie={evt => this.useRecentCookie(evt)}/>
                 <Routes>
                     <Route exact path="/" element={<HomePage restaurants={this.state.restaurantInformation}/>}/>
-                    <Route path="/account" element={<AccountInformation user={this.state.user} updateAccount={() => this.getAccountInformation()}/>} />
-                    <Route path="/restaurant" element={<SearchParamParse />} />
+                    <Route path="/account" element={<AccountInformation userid={this.state.userid} user={this.state.user} updateAccount={() => this.getAccountInformation()} getReviews={params => this.getAdvancedReviews(params)}/>} />
+                    <Route path="/restaurant" element={<SearchParamParse userid={this.state.userid} getReviews={params => this.getAdvancedReviews(params)}/>} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/logout" element={<Logout />}/>
                 </Routes>
