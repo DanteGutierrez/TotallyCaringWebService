@@ -8,28 +8,15 @@ class Restaurant extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userid: "61aec30224bd9a3b59aef777",
-            user: [],
             restaurant: [],
             reviews: [],
             isFavorite: false,
-            favorite: []
+            favorite: [],
         }
         this.getRestaurant = this.getRestaurant.bind(this);
-        this.getUser = this.getUser.bind(this);
-        this.getReviews = this.getReviews.bind(this);
     }
     getFavorite = async () => {
-        return fetch(url + "api/favorites/search?restaurantid=" + this.props.params.id + "&userid=" + this.state.userid)
-            .then(res => res.json())
-            
-    }
-    getReviews = async () => {
-        return fetch(url + "api/reviews/search?restaurantid=" + this.props.params.id)
-            .then(res => res.json())
-    }
-    getUser = async () => {
-        return fetch(url + "api/users/" + this.state.userid)
+        return fetch(url + "api/favorites/search?restaurantid=" + this.props.params.id + "&userid=" + this.props.userid)
             .then(res => res.json())
     }
     getRestaurant = async () => {
@@ -40,18 +27,17 @@ class Restaurant extends React.Component {
         evt.preventDefault();
         let review = {
             restaurantid: this.state.restaurant.id,
-            userid: this.state.userid,
+            userid: this.props.userid,
             restaurantname: this.state.restaurant.name,
             comment: evt.target.comment.value,
             rating: evt.target.rating.value
         }
         fetch(url + "api/reviews/create", { method: "POST", body: new URLSearchParams(review) })
-            .then(() => this.getReviews()
+            .then(() => this.props.getReviews("restaruantid=" + this.state.restaurant.id)
                 .then(json => {
                     this.setState({ reviews: json }, () => evt.target.reset())
                 })
             )
-        
     }
     favorite = evt => {
         if (this.state.isFavorite) {
@@ -69,7 +55,7 @@ class Restaurant extends React.Component {
                 })
         }
         else {
-            fetch(url + "api/favorites/create", { method: "POST", body: new URLSearchParams({ restaurantid: this.props.params.id, userid: this.state.userid, restaurantname: this.state.restaurant.name }) })
+            fetch(url + "api/favorites/create", { method: "POST", body: new URLSearchParams({ restaurantid: this.props.params.id, userid: this.props.userid, restaurantname: this.state.restaurant.name }) })
                 .then(() => {
                     this.getFavorite()
                         .then(json => {
@@ -88,22 +74,14 @@ class Restaurant extends React.Component {
         this.getRestaurant()
             .then(json => {
                 this.setState({ restaurant: json }, () => {
-                    this.getUser()
+                    this.getFavorite()
                         .then(json => {
-                            this.setState({ user: json }, () => {
-                                this.getReviews()
+                            let fav = json.length > 0;
+                            let storage = json.length > 0 ? json : []
+                            this.setState({ isFavorite: fav, favorite: storage }, () => {
+                                this.props.getReviews("restaruantid=" + this.state.restaurant.id)
                                     .then(json => {
-                                        this.setState({ reviews: json }, () => {
-                                            this.getFavorite()
-                                                .then(json => {
-                                                    if (json.length > 0) {
-                                                        this.setState({isFavorite: true, favorite: json})
-                                                    }
-                                                    else {
-                                                        this.setState({isFavorite: false, favorite: []})
-                                                    }
-                                                })
-                                        })
+                                        this.setState({ reviews: json })
                                     })
                             })
                         })
@@ -134,7 +112,7 @@ class Restaurant extends React.Component {
                         <input type="range" name="rating" min="1" max="5" step="1" defaultValue="4" className="item" />
                         <input type="submit" value="Comment!"/>
                     </form>
-                    <Review reviews={this.state.reviews} account={this.state.user}/>
+                    <Review reviews={this.state.reviews}/>
                 </div>
             </div>
         )

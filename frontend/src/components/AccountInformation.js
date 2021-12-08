@@ -111,12 +111,8 @@ class Frame extends React.Component {
         this.handleSubmission = this.handleSubmission.bind(this);
         this.deleteOnClick = this.deleteOnClick.bind(this);
     }
-    getReviews = async () => {
-        return fetch(url + "api/reviews/search?userid=" + this.props.user._id)
-            .then(res => res.json());
-    }
     getFavorites = async () => {
-        return fetch(url + "api/favorites/search?userid=" + this.props.user._id)
+        return fetch(url + "api/favorites/search?userid=" + this.props.userid)
             .then(res => res.json());
     }
     handleSubmission = (evt) => {
@@ -125,9 +121,13 @@ class Frame extends React.Component {
             name: evt.target.name.value,
             password: evt.target.password.value
         }
-        fetch(url + "api/users/" + this.props.user._id, { method: "PUT", body: new URLSearchParams(form) })
+        fetch(url + "api/users/" + this.props.userid, { method: "PUT", body: new URLSearchParams(form) })
             .then(res => {
                 this.props.updateAccount();
+                this.props.getReviews("userid=" + this.props.userid)
+                    .then(json => {
+                        this.setState({ userReviews: json })
+                    })
                 evt.target.reset();
             }
         )
@@ -138,7 +138,7 @@ class Frame extends React.Component {
                 .then(json => this.setState({userFavorites: json})))
     }
     componentDidMount() {
-        this.getReviews()
+        this.props.getReviews("userid=" + this.props.userid)
             .then(json => {
                 this.setState({ userReviews: json }, () => {
                     this.getFavorites()
@@ -161,7 +161,7 @@ class Frame extends React.Component {
 class AccountInformation extends React.Component {
     render() {
         return (
-            <Frame user={this.props.user} updateAccount={this.props.updateAccount}/>
+            <Frame userid={this.props.userid} user={this.props.user} updateAccount={this.props.updateAccount} getReviews={this.props.getReviews}/>
         )
     }
 }

@@ -12,7 +12,7 @@ class Review extends React.Component {
                     </div>
                     <img src={"./ratings/" + this.props.review.rating + ".png"} alt="rating" className="reviewRating item" />
                     <div className="reviewerName">
-                        {this.props.account.name}
+                        {this.props.review.username}
                     </div>
                     <div className="item">
                         {this.props.review.comment}
@@ -28,7 +28,8 @@ class Reviews extends React.Component {
         return (
             <div id="ReviewFrame" className="item maxHeight">
                 {this.props.reviews.map(review => {
-                    return (<Review key={review._id} review={review} account={this.props.account}/>)
+                    console.log(review.username)
+                    return (<Review key={review._id} review={review}/>)
                 })}
             </div>
         )    
