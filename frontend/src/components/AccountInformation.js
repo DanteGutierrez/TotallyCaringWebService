@@ -118,9 +118,9 @@ class Frame extends React.Component {
     handleSubmission = (evt) => {
         evt.preventDefault();
         let form = {
-            name: evt.target.name.value,
-            password: evt.target.password.value
+            name: evt.target.name.value
         }
+        if (evt.target.password !== undefined) form.password = evt.target.password.value;
         fetch(url + "api/users/" + this.props.userid, { method: "PUT", body: new URLSearchParams(form) })
             .then(res => {
                 this.props.updateAccount();
