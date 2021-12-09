@@ -12,7 +12,7 @@ const IsLoggedIn = (props) => {
 }
 const MakeLogout = (props) => {
     if (props.isLoggedIn) {
-        return <Nav.Link href="/Logout">Logout</Nav.Link>
+        return <Nav.Link href="/logout">Logout</Nav.Link>
     }
     else {
         return null
