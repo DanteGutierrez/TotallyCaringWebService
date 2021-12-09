@@ -24,3 +24,7 @@
 #NavigationBar {
     height: 10vh;
 }
+
+.control{
+    height: 24px;
+}
