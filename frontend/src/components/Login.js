@@ -1,14 +1,12 @@
 import React from 'react';
 import './Login.css';
-import Cookies from 'js-cookie';
-
-const url = "https://eatd-8s2kk.ondigitalocean.app/";
 
 class Login extends React.Component {
     render() {
         return (
-            <div id="Login">
-                <form className="container vertical wireframe item" onSubmit={this.props.loginCheck}>
+            <div id="Login" className="maxWidth maxHeight">
+                <div id="darken"></div>
+                <form id="loginBox" className="container vertical item" onSubmit={this.props.loginCheck}>
                     <label className="item" htmlFor="email">Email: </label>
                     <input className="item" type="text" name="email" placeholder="email" />
                     <label className="item" htmlFor="password">Password: </label>
