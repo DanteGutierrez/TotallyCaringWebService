@@ -28,7 +28,6 @@ class Reviews extends React.Component {
         return (
             <div id="ReviewFrame" className="item maxHeight">
                 {this.props.reviews.map(review => {
-                    console.log(review.username)
                     return (<Review key={review._id} review={review}/>)
                 })}
             </div>

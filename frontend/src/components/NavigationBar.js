@@ -2,6 +2,15 @@ import React from 'react';
 import { Nav, Navbar, Form, FormControl } from 'react-bootstrap';
 import './NavigationBar.css';
 
+const IsLoggedIn = (props) => {
+    if (props.isLoggedIn) {
+        return <Nav.Link href="/account">Account</Nav.Link>
+    }
+    else {
+        return <Nav.Link href="/login">Login</Nav.Link>
+    }
+}
+
 class NavigationBar extends React.Component {
     render() {
         return (
@@ -18,7 +27,7 @@ class NavigationBar extends React.Component {
                 <Navbar.Collapse id="basic-navbar-nav" className="container horiztonal spaceEvenly">
                     <Nav className="container horiztonal spaceEvenly">
                         <Nav.Item className="item"><Nav.Link href="/">Home</Nav.Link></Nav.Item>
-                        <Nav.Item className="item"><Nav.Link href="/account">Account</Nav.Link></Nav.Item>
+                        <Nav.Item className="item"><IsLoggedIn isLoggedIn={this.props.isLoggedIn}/></Nav.Item>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
