@@ -184,9 +184,9 @@ exports.processUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     user = {
-        name: req.body.name,
-        password: req.body.password
+        name: req.body.name
     };
+    if (req.body.password != undefined) user.password = req.body.password;
     result = await updateOneObject("users", { _id: ObjectId(req.params.id) }, { $set: user });
     res.send(`https://${req.get('host')}/api/users/${req.params.id}`);
 };
