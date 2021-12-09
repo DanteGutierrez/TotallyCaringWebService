@@ -33,7 +33,7 @@ class Restaurant extends React.Component {
             rating: evt.target.rating.value
         }
         fetch(url + "api/reviews/create", { method: "POST", body: new URLSearchParams(review) })
-            .then(() => this.props.getReviews("restaruantid=" + this.state.restaurant.id)
+            .then(() => this.props.getReviews("restaurantid=" + this.state.restaurant.id)
                 .then(json => {
                     this.setState({ reviews: json }, () => evt.target.reset())
                 })
@@ -79,7 +79,7 @@ class Restaurant extends React.Component {
                             let fav = json.length > 0;
                             let storage = json.length > 0 ? json : []
                             this.setState({ isFavorite: fav, favorite: storage }, () => {
-                                this.props.getReviews("restaruantid=" + this.state.restaurant.id)
+                                this.props.getReviews("restaurantid=" + this.state.restaurant.id)
                                     .then(json => {
                                         this.setState({ reviews: json })
                                     })
