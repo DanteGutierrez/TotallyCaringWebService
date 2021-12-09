@@ -28,7 +28,7 @@ class NavigationBar extends React.Component {
                     <Form className="form-center container horizontal" onSubmit={this.props.onSubmit}>
                         <FormControl type="text" placeholder="Search Terms" name="term" className="item" />
                         <FormControl type="text" placeholder="Location" name="location" className="item"/>
-                        <FormControl className="control" type="submit" value="Search!" className="item"/>
+                        <FormControl className="control item" type="submit" value="Search!"/>
                     </Form>
                     <button className="control" type="button" onClick={this.props.cookie}>Last Search</button>
                 </div>
