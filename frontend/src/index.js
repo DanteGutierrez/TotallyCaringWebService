@@ -21,7 +21,7 @@ const SearchParamParse = (props) => {
         return <Restaurant params={Object.fromEntries([...searchParams])} userid={props.userid} getReviews={props.getReviews} />;
     }
     else {
-        return <Login />
+        return <Login onSubmit={props.onSubmit}/>
     }
 }
 const AccountFunction = (props) => {
@@ -29,12 +29,12 @@ const AccountFunction = (props) => {
         return <AccountInformation userid={props.userid} user={props.user} updateAccount={props.updateAccount} getReviews={props.getReviews}/>
     }
     else {
-        return <Login />
+        return <Login onSubmit={props.onSubmit}/>
     }
 }
-const LogoutFunction = () => {
+const LogoutFunction = (props) => {
     Cookies.remove('session');
-    return <Login />
+    return <HomePage restaurants={props.restaurants}/>
 }
 
 class App extends React.Component {
@@ -59,7 +59,6 @@ class App extends React.Component {
         if (greenlight !== false && greenlight !== '/') {
             Cookies.set('session', greenlight);
             this.setState({ isLoggedIn: true });
-            this.getAccountInformation();
         }
         evt.target.reset();
     }
@@ -143,10 +142,10 @@ class App extends React.Component {
                 <NavigationBar isLoggedIn={Cookies.get('session') !== undefined} onSubmit={evt => this.updateSearch(evt)} cookie={evt => this.useRecentCookie(evt)}/>
                 <Routes>
                     <Route exact path="/" element={<HomePage restaurants={this.state.restaurantInformation}/>}/>
-                    <Route path="/account" element={<AccountFunction userid={Cookies.get('session')} user={this.state.user} updateAccount={() => this.getAccountInformation()} getReviews={params => this.getAdvancedReviews(params)}/>} />
-                    <Route path="/restaurant" element={<SearchParamParse userid={Cookies.get('session')} getReviews={params => this.getAdvancedReviews(params)}/>} />
-                    <Route path="/login" element={<Login loginCheck={evt => this.loginCheck(evt)}/>} />
-                    <Route path="/logout" element={<LogoutFunction />}/>
+                    <Route path="/account" element={<AccountFunction userid={Cookies.get('session')} user={this.state.user} updateAccount={() => this.getAccountInformation()} getReviews={params => this.getAdvancedReviews(params)} onSubmit={evt => this.loginCheck(evt)}/>} />
+                    <Route path="/restaurant" element={<SearchParamParse userid={Cookies.get('session')} getReviews={params => this.getAdvancedReviews(params)} onSubmit={evt => this.loginCheck(evt)}/>} />
+                    <Route path="/login" element={<Login onSubmit={evt => this.loginCheck(evt)}/>} />
+                    <Route path="/logout" element={<LogoutFunction restaurants={this.state.restaurantInformation}/>}/>
                 </Routes>
             </div>
         )

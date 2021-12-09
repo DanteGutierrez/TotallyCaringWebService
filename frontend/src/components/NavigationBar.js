@@ -10,6 +10,14 @@ const IsLoggedIn = (props) => {
         return <Nav.Link href="/login">Login</Nav.Link>
     }
 }
+const MakeLogout = (props) => {
+    if (props.isLoggedIn) {
+        return <Nav.Link href="/Logout">Logout</Nav.Link>
+    }
+    else {
+        return null
+    }
+}
 
 class NavigationBar extends React.Component {
     render() {
@@ -28,6 +36,7 @@ class NavigationBar extends React.Component {
                     <Nav className="container horiztonal spaceEvenly">
                         <Nav.Item className="item"><Nav.Link href="/">Home</Nav.Link></Nav.Item>
                         <Nav.Item className="item"><IsLoggedIn isLoggedIn={this.props.isLoggedIn}/></Nav.Item>
+                        <Nav.Item className="item"><MakeLogout isLoggedIn={this.props.isLoggedIn}/></Nav.Item>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
