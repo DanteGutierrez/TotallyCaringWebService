@@ -221,7 +221,7 @@ exports.checkLogin = async (req, res) => {
     if (req.body.email != undefined && req.body.password != undefined) {
         user = await findOneObject("users", { email: req.body.email, password: req.body.password }, {});
         if (user != null) {
-            res.send(true);
+            res.send(user._id);
         }
         else {
             res.send(false);
