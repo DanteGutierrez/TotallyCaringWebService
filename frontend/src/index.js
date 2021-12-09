@@ -12,29 +12,56 @@ import HomePage from './components/HomePage';
 import AccountInformation from './components/AccountInformation';
 import Restaurant from './components/Restaurant';
 import Login from './components/Login';
-import Logout from './components/Logout';
 
 const url = "https://eatd-8s2kk.ondigitalocean.app/";
 
 const SearchParamParse = (props) => {
     const [searchParams] = useSearchParams();
-    return <Restaurant params={Object.fromEntries([...searchParams])} userid={props.userid} getReviews={props.getReviews}/>;
+    if (props.userid !== undefined) {
+        return <Restaurant params={Object.fromEntries([...searchParams])} userid={props.userid} getReviews={props.getReviews} />;
+    }
+    else {
+        return <Login />
+    }
+}
+const AccountFunction = (props) => {
+    if (props.userid !== undefined) {
+        return <AccountInformation userid={props.userid} user={props.user} updateAccount={props.updateAccount} getReviews={props.getReviews}/>
+    }
+    else {
+        return <Login />
+    }
+}
+const LogoutFunction = () => {
+    Cookies.remove('session');
+    return <Login />
 }
 
 class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            userid: "61aec30224bd9a3b59aef777",
             user: {},
             search: {},
-            restaurantInformation: []
+            restaurantInformation: [],
+            isLoggedIn: Cookies.get('session') !== undefined
         };
-        
         this.updateSearch = this.updateSearch.bind(this);
         this.getRestaurant = this.getRestaurant.bind(this);
         this.pullLocation = this.pullLocation.bind(this);
         this.getAccountInformation = this.getAccountInformation.bind(this);
+        this.loginCheck = this.loginCheck.bind(this);
+    }
+    loginCheck = async (evt) => {
+        evt.preventDefault();
+        let greenlight = await fetch(url + "api/checklogin", { method: "POST", body: new URLSearchParams({ email: evt.target.email.value, password: evt.target.password.value }) })
+            .then(res => res.json());
+        if (greenlight !== false && greenlight !== '/') {
+            Cookies.set('session', greenlight);
+            this.setState({ isLoggedIn: true });
+            this.getAccountInformation();
+        }
+        evt.target.reset();
     }
     getAdvancedReviews = async (params) => {
         let json = await fetch(url + "api/reviews/search?" + params)
@@ -51,15 +78,14 @@ class App extends React.Component {
         });
     }
     getAccountInformation = () => {
-        fetch(url + "api/users/" + this.state.userid)
+        fetch(url + "api/users/" + Cookies.get('session'))
             .then(res => res.json())
             .then(json => this.setState({ user: json }));
     }
     setRecentCookie = () => {
-        Cookies.set('search', JSON.stringify(this.state.search), { path: '/' });
+        Cookies.set('search', JSON.stringify(this.state.search), {expires: 7});
     }
     useRecentCookie = evt => {
-        console.log("clicked!")
         this.setState({ search: JSON.parse(Cookies.get('search')) }, () => this.getRestaurant());
     }
     updateSearch = (evt) => {
@@ -106,19 +132,21 @@ class App extends React.Component {
         );
     }
     componentDidMount() {
-        this.getAccountInformation();
+        if (Cookies.get('session') !== undefined) {
+            this.getAccountInformation();
+        }
         this.pullLocation();
     }
     render() {
         return (
             <div id="App" className="container vertical maxWidth maxHeight">
-                <NavigationBar onSubmit={evt => this.updateSearch(evt)} cookie={evt => this.useRecentCookie(evt)}/>
+                <NavigationBar isLoggedIn={Cookies.get('session') !== undefined} onSubmit={evt => this.updateSearch(evt)} cookie={evt => this.useRecentCookie(evt)}/>
                 <Routes>
                     <Route exact path="/" element={<HomePage restaurants={this.state.restaurantInformation}/>}/>
-                    <Route path="/account" element={<AccountInformation userid={this.state.userid} user={this.state.user} updateAccount={() => this.getAccountInformation()} getReviews={params => this.getAdvancedReviews(params)}/>} />
-                    <Route path="/restaurant" element={<SearchParamParse userid={this.state.userid} getReviews={params => this.getAdvancedReviews(params)}/>} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/logout" element={<Logout />}/>
+                    <Route path="/account" element={<AccountFunction userid={Cookies.get('session')} user={this.state.user} updateAccount={() => this.getAccountInformation()} getReviews={params => this.getAdvancedReviews(params)}/>} />
+                    <Route path="/restaurant" element={<SearchParamParse userid={Cookies.get('session')} getReviews={params => this.getAdvancedReviews(params)}/>} />
+                    <Route path="/login" element={<Login loginCheck={evt => this.loginCheck(evt)}/>} />
+                    <Route path="/logout" element={<LogoutFunction />}/>
                 </Routes>
             </div>
         )
