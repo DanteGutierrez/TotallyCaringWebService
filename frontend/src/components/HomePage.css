@@ -56,10 +56,12 @@
     height: 100%;
     max-height: 90vh;
     width: 99%;
+    max-width: 99%;
     background-color: #000;
     opacity: .3;
     z-index: 1;
 }
+
 #HomeFrame {
     max-height: 90vh;
     /* background-color: #336699; */
